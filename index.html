@@ -1,344 +1,212 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sudheer Kamepalli - CV</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <style>
-      body {
-        background-color: #f8f9fa;
-      }
-      .section-title {
-        border-bottom: 2px solid #dee2e6;
-        padding-bottom: 0.5rem;
-        margin-bottom: 1rem;
-      }
-      .contact-info a {
-        color: #0d6efd;
-        text-decoration: none;
-      }
-      .profile,
-      .previous-role {
-        margin-bottom: 2rem;
-      }
-      .role-title {
-        font-weight: bold;
-      }
-      /* Additional PDF-specific styles can be added here or in a separate CSS file */
-    </style>
-  </head>
-  <body>
-    <!-- The entire CV content is wrapped in a container with an id for PDF generation -->
-    <div id="cv-content" class="container my-4">
-      <!-- Header -->
-      <div class="row mb-4">
-        <div class="col-md-8">
-          <h1>Sudheer Kamepalli</h1>
-          <h4>Principal Cloud Engineer</h4>
-        </div>
-        <div class="col-md-4 text-md-end contact-info">
-          <p>
-            <a href="/cdn-cgi/l/email-protection#7e0d0b1a1f06123e19131f1712501d1113">
-              <i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="f88b8d9c998094b89f95999194d69b9795">sudaxl+jobs@gmail.com</span>
-            </a>
-          </p>
-          <p>
-            <a href="https://api.whatsapp.com/send?phone=447479215659" target="_blank">
-              <i class="fab fa-whatsapp"></i> 07479215659
-            </a>
-          </p>
-          <p>
-            <a href="https://blogs.sudheer.dev" target="_blank">
-              <i class="fas fa-rss"></i> Blogs
-            </a>
-          </p>
-          <p>
-            <a href="https://github.com/bit-cloner" target="_blank">
-              <i class="fab fa-github"></i> GitHub: bit-cloner
-            </a>
-          </p>
-        </div>
-      </div>
-      
-      <!-- Download PDF Button -->
-      <div class="text-end mb-4">
-        <button id="download-pdf" class="btn btn-primary">
-          <i class="fas fa-download me-2"></i>Download as PDF
-        </button>
-      </div>
-      
-      <!-- Profile Section -->
-      <div class="profile">
-        <h3 class="section-title">Profile</h3>
-        <p>
-          A highly skilled Principal Cloud Architect with extensive experience in designing, optimizing, and scaling cloud infrastructure. With expertise in AWS, Kubernetes, and DevOps best practices, I have delivered impactful cloud solutions across financial services, government, and large enterprises. Passionate about automation, cost optimization, and security, I have built internal tooling, open-source projects, and modern DevOps frameworks to drive efficiency and innovation. Comfortable working across all layers of the cloud stack, I thrive in high-performance, data-driven environments and have successfully led cross-functional teams and workshops.
-        </p>
-      </div>
-      
-      <!-- Experience Highlights -->
-      <div class="experience-highlights mb-4">
-        <div class="card border-primary shadow-sm">
-          <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Key Highlights</h5>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <i class="fas fa-check text-success me-2 fa-sm"></i>
-              <strong>15 years in tech industry:</strong> A seasoned technology professional with a robust track record of driving innovation.
-            </li>
-            <li class="list-group-item">
-              <i class="fas fa-check text-success me-2 fa-sm"></i>
-              <strong>Multi-Cloud Specialist:</strong> Expertise in architecting solutions across diverse cloud platforms.
-            </li>
-            <li class="list-group-item">
-              <i class="fas fa-check text-success me-2 fa-sm"></i>
-              <strong>Versatile Technology Strategist:</strong> Deep experience spanning a wide array of technologies and modern stacks.
-            </li>
-            <li class="list-group-item">
-              <i class="fas fa-check text-success me-2 fa-sm"></i>
-              <strong>Scalable Solutions Architect:</strong> Demonstrated success in designing and delivering resilient, enterprise-grade cloud infrastructures.
-            </li>
-            <li class="list-group-item">
-              <i class="fas fa-check text-success me-2 fa-sm"></i>
-              <strong>Cost Optimization & Security Expert:</strong> Strategic focus on reducing costs while enforcing best-in-class security practices.
-            </li>
-          </ul>
-        </div>
-      </div>
-      
-      <!-- Personal Section -->
-      <div class="personal mb-4">
-        <h3 class="section-title">Personal</h3>
-        <ul class="list-unstyled">
-          <li><strong>Nationality:</strong> British</li>
-          <li><strong>Security Clearance:</strong> Previously SC cleared. Open to vetting process</li>
-          <li><strong>References:</strong> Provided upon request</li>
-          <li>
-            <strong>Education:</strong>
-            <ul>
-              <li>Master’s in Software Engineering from Napier University</li>
-              <li>Post Graduate Diploma in Telecommunication Networks from Essex University</li>
-              <li>Bachelor’s Degree in Electronics and Communications Engineering from Madras University</li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      
-      <!-- Skills & Expertise -->
-      <div class="skills mb-4">
-        <h3 class="section-title">Skills &amp; Expertise</h3>
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead class="table-light">
-              <tr>
-                <th>Skill</th>
-                <th>Product</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Cloud Infrastructure</td>
-                <td>AWS, GCP, Azure</td>
-              </tr>
-              <tr>
-                <td>Container Orchestration</td>
-                <td>Kubernetes, EKS, ECS</td>
-              </tr>
-              <tr>
-                <td>Programming</td>
-                <td>Javascript, Node.js, Golang, Rust, Python</td>
-              </tr>
-              <tr>
-                <td>Compliance</td>
-                <td>Open Policy Agent, AWS App Config</td>
-              </tr>
-              <tr>
-                <td>Infrastructure as Code</td>
-                <td>Terraform, Pulumi, CDK</td>
-              </tr>
-              <tr>
-                <td>Serverless</td>
-                <td>Lambda, App Runner, Serverless Framework (SLS)</td>
-              </tr>
-              <tr>
-                <td>Observability</td>
-                <td>Datadog, ELK, Fluent Bit, Grafana, Prometheus</td>
-              </tr>
-              <tr>
-                <td>CI/CD</td>
-                <td>Azure DevOps, ArgoCD, GitHub Actions</td>
-              </tr>
-              <tr>
-                <td>Open Source Projects</td>
-                <td>
-                  <a href="https://github.com/bit-cloner" target="_blank">GitHub: bit-cloner</a>
-                </td>
-              </tr>
-              <tr>
-                <td>Design Patterns</td>
-                <td>Microservices, Service Mesh, API Gateway, Event Driven, Data Streaming</td>
-              </tr>
-              <tr>
-                <td>Cloud Specialties</td>
-                <td>
-                  <ul class="mb-0">
-                    <li>Cost Optimization Practice</li>
-                    <li>Security Posture Review/Improvement</li>
-                    <li>Architecture Review/Improve/Redesign</li>
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      
-      <!-- Previous Roles -->
-      <div class="previous-roles">
-        <h3 class="section-title">Previous Roles</h3>
-        
-        <!-- Doit -->
-        <div class="previous-role mb-4">
-          <h4>Doit</h4>
-          <p class="role-title">Principal Cloud Architect</p>
-          <p><strong>Period:</strong> November 2021 to Present</p>
-          <p>
-            Doit is an organisation empowering cloud-driven organizations to harness the transformative power of the cloud. Providing unrivaled expertise to unlock the true promise of cloud innovation.
-          </p>
-          <ul>
-            <li>Conducted extensive cost optimization sessions on AWS, delivering actionable insights and significant cost savings.</li>
-            <li>Conducted comprehensive security posture reviews of AWS accounts, delivering key findings with actionable remediation plans that closed critical security gaps and enhanced existing controls.</li>
-            <li>Performed comprehensive AWS Well-Architected Reviews to ensure scalable, secure, and efficient cloud architectures.</li>
-            <li>Acted as a subject matter expert in Kubernetes containerization, CI/CD practices, and application architecture principles.</li>
-            <li>Collaborated with organizations to capture their ambitions, requirements, and pain points, guiding them to leverage optimal AWS services in a cost-effective manner.</li>
-            <li>Developed robust internal tooling that enhanced team productivity and operational efficiency, promoting cost-effective solutions.</li>
-          </ul>
-        </div>
-        
-        <!-- HSBC -->
-        <div class="previous-role mb-4">
-          <h4>HSBC</h4>
-          <p class="role-title">Principal Consultant</p>
-          <p><strong>Period:</strong> June 2021 to November 2021</p>
-          <p><strong>Team Size:</strong> 8</p>
-          <ul>
-            <li>Delivered secure AWS infrastructure using Terraform, adhering to HSBC's stringent financial compliance standards.</li>
-            <li>Established a robust compliance framework in a highly regulated environment to ensure all cloud deployments met rigorous internal and regulatory controls.</li>
-            <li>Developed automated compliance checks and gateways for infrastructure provisioning, enforcing critical governance and security policies.</li>
-            <li>Leveraged Open Policy Agent to integrate real-time compliance validations into the cloud deployment process.</li>
-            <li>Authored comprehensive policy documents in Rego language, driving consistent, automated compliance across cloud operations.</li>
-          </ul>
-        </div>
-        
-        <!-- Reed -->
-        <div class="previous-role mb-4">
-          <h4>Reed</h4>
-          <p class="role-title">DevOps Lead</p>
-          <p><strong>Period:</strong> June 2019 to June 2021</p>
-          <p><strong>Team Size:</strong> 7</p>
-          <ul>
-            <li>Joined Reed, a 60-year-old family-run medium enterprise burdened by technical debt, as the first member of a DevOps practice to drive modernization and operational efficiency.</li>
-            <li>Consulted with product and delivery teams to assess the current state, then built and expanded the DevOps team with senior and offshore engineers.</li>
-            <li>Improved key DevOps metrics—deployment frequency, mean time to recover, and failure rate—by implementing a Kubernetes platform for container orchestration.</li>
-            <li>Spearheaded initiatives in containerization, infrastructure provisioning, and the adoption of software-defined infrastructure using Pulumi.</li>
-            <li>Enhanced security and observability through internal vulnerability scans and the implementation of Prometheus, ELK, and Grafana, while mentoring teams to achieve full Kubernetes autonomy.</li>
-          </ul>
-        </div>
-        
-        <!-- Insurance & Finance – Cloud & DevOps Consultant (Blockchain) -->
-        <div class="previous-role mb-4">
-          <h4>Insurance &amp; Finance – Cloud &amp; DevOps Consultant (Blockchain)</h4>
-          <p><strong>Period:</strong> January 2019 to June 2019</p>
-          <p><strong>Client:</strong> Ernst &amp; Young</p>
-          <p><strong>Team Size:</strong> Approximately 50</p>
-          <ul>
-            <li>Optimized a state-of-the-art blockchain insurance product by leveraging Azure services to reduce costs and simplify support models.</li>
-            <li>Transformed legacy console based infrastructure provisioning to version-controlled infrastructure as code with automated CI/CD.</li>
-            <li>Introduced DevOps continuous delivery patterns and re-engineered the blockchain application into a Kubernetes-based PASS solution for significant cost benefits.</li>
-            <li>Reduced deployment times from weeks to days, enabling frictionless A/B testing and rapid feature releases.</li>
-            <li>Served as an Azure and DevOps SME, collaborating with enterprise architects and development leads to drive successful project delivery.</li>
-          </ul>
-        </div>
-        
-        <!-- Consulting for Central Government – Kainos at Department for Work and Pensions -->
-        <div class="previous-role mb-4">
-          <h4>Consulting for Central Government – Kainos at Department for Work and Pensions</h4>
-          <p class="role-title">Technical Architect / SRE Consultant</p>
-          <p><strong>Period:</strong> June 2018 to January 2019</p>
-          <p><strong>Team Size:</strong> 100</p>
-          <ul>
-            <li>Collaborated with DWP and Kainos to refine an in-house DevOps model for nationwide-impact products.</li>
-            <li>Reviewed legacy on-premises system designs and proposed roadmaps to transition to cloud-native architectures with minimal disruption.</li>
-            <li>Established non-functional requirements essential for a successful cloud-native transformation.</li>
-            <li>Engaged stakeholders to secure buy-in for transformative initiatives and improvements.</li>
-            <li>Contributed to forming a Site Reliability Engineering team for the Universal Credit application.</li>
-          </ul>
-        </div>
-        
-        <!-- UK Public Sector – Technical Consultant (DevOps, Cloud) -->
-        <div class="previous-role mb-4">
-          <h4>UK Public Sector – Technical Consultant (DevOps, Cloud)</h4>
-          <p><strong>Period:</strong> April 2015 to June 2018</p>
-          <p><strong>Client:</strong> ORBIS Partnership</p>
-          <p><strong>Team Size:</strong> Approximately 7</p>
-        </div>
-        
-        <!-- CapGemini -->
-        <div class="previous-role mb-4">
-          <h4>CapGemini</h4>
-          <p class="role-title">Integration Architect</p>
-          <p><strong>Period:</strong> October 2010 to May 2012</p>
-          <p><strong>Client:</strong> Centrica</p>
-          <p><strong>Team Size:</strong> Approximately 30</p>
-        </div>
-        
-        <!-- Accenture -->
-        <div class="previous-role mb-4">
-          <h4>Accenture</h4>
-          <p class="role-title">Integration Specialist</p>
-          <p><strong>Period:</strong> August 2009 to March 2010</p>
-          <p><strong>Client:</strong> Unilever</p>
-          <p><strong>Team Size:</strong> Approximately 15</p>
-        </div>
-        
-        <!-- IBM Ab Swenska, Sweden -->
-        <div class="previous-role mb-4">
-          <h4>IBM Ab Swenska, Sweden</h4>
-          <p class="role-title">EDI Consultant – SAP PI (One Integration Lifecycle)</p>
-          <p><strong>Period:</strong> March 2007 to October 2007</p>
-          <p><strong>Client:</strong> Akademibokhandeln, Stockholm (Publishing Sector)</p>
-          <p><strong>Team Size:</strong> 4</p>
-          <p><strong>Role:</strong> SAP XI (EDI Integration Architect SAP XI 3.0)</p>
-        </div>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sudheer Kamepalli - Cloud Architect</title>
+  <!-- Using Inter font similar to availabl.ai -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap" rel="stylesheet" />
+  <!-- FontAwesome for social icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papP4q00aFod8YBNTJTmKfN8HovL8N8HJg2+LJ3K8C1zRfE9H13pm4W3IL0M78FDQeER1+0dI7I8a2f1xxc1dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Base styling using CSS variables */
+    :root {
+      --bg-color: #fff;
+      --text-color: #333;
+      --secondary-text: #555;
+      --link-color: #333;
+      --link-hover: #0070f3;
+      --button-bg: #0070f3;
+      --button-hover: #005bb5;
+    }
+    /* Dark mode variables */
+    body.dark-mode {
+      --bg-color: #121212;
+      --text-color: #e0e0e0;
+      --secondary-text: #bbb;
+      --link-color: #e0e0e0;
+      --link-hover: #66aaff;
+      --button-bg: #66aaff;
+      --button-hover: #3388ff;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: var(--bg-color);
+    }
+    header nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: var(--link-color);
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    header nav a:hover {
+      color: var(--link-hover);
+    }
+    header nav a i {
+      margin-right: 5px;
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 90vh;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .hero h1 {
+      font-size: 4rem;
+      margin: 0;
+    }
+    .hero h2 {
+      font-size: 2rem;
+      margin: 10px 0;
+      color: var(--secondary-text);
+    }
+    .hero p {
+      max-width: 600px;
+      margin: 20px auto;
+      font-size: 1.1rem;
+      color: var(--secondary-text);
+    }
+    .cta-button {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 15px 30px;
+      background: var(--button-bg);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .cta-button:hover {
+      background: var(--button-hover);
+    }
+    /* Toggle Switch Styles */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+      margin-left: 10px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 26px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: var(--button-bg);
+    }
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+  </style>
+</head>
+<!-- Set default dark mode on body and check the toggle by default -->
+<body class="dark-mode">
+  <header>
+    <!-- Navigation Links -->
+    <nav>
+      <a href="https://www.linkedin.com/in/digitalvisionary/" target="_blank">
+        <i class="fab fa-linkedin"></i>LinkedIn
+      </a>
+      <a href="https://github.com/bit-cloner" target="_blank">
+        <i class="fab fa-github"></i>GitHub
+      </a>
+      <a href="https://medium.com/doit-international/infrastructure-as-software-with-pulumi-ea32e34b41e7" target="_blank">
+        <i class="fab fa-medium"></i>Blogs
+      </a>
+      <a href="mailto:sudaxl+jobs@gmail.com">
+        <i class="fas fa-envelope"></i>Contact
+      </a>
+      <a href="https://api.whatsapp.com/send?phone=447479215659" target="_blank">
+        <i class="fab fa-whatsapp"></i>Message Me
+      </a>
+    </nav>
+    <!-- Theme Toggle Switch -->
+    <div class="theme-toggle">
+      <!-- The label text will change dynamically -->
+      <label id="mode-label" for="theme-toggle-checkbox"></label>
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle-checkbox" checked>
+        <span class="slider"></span>
+      </label>
     </div>
-    
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- html2pdf Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <!-- PDF Generation Script (Extract this code to pdf-generator.js if it grows large) -->
-    <script>
-      document.getElementById('download-pdf').addEventListener('click', function () {
-        const element = document.getElementById('cv-content');
-        const opt = {
-          margin:       0.5,
-          filename:     'Sudheer_Kamepalli_CV.pdf',
-          image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2, logging: true },
-          jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
-        html2pdf().from(element).set(opt).save();
-      });
-    </script>
-  </body>
+  </header>
+
+  <!-- Main Hero Section -->
+  <section class="hero">
+    <h1>Sudheer Kamepalli</h1>
+    <h2>Cloud Technologist</h2>
+    <p>
+      As a premier Cloud technologist with immense hands-on experience, I bring a forward-thinking leadership style and a drive for innovative solutions.
+    </p>
+    <a class="cta-button" href="https://calendar.app.google/4bBkeQwWmHp4sDM48">Have a chat with me</a>
+  </section>
+
+  <!-- Toggle Theme Script -->
+  <script>
+    const toggleCheckbox = document.getElementById('theme-toggle-checkbox');
+    const modeLabel = document.getElementById('mode-label');
+
+    function updateLabel() {
+      // When dark mode is active, display "Light Mode" as the label (to switch to light mode)
+      if (document.body.classList.contains('dark-mode')) {
+        modeLabel.textContent = "Light Mode";
+      } else {
+        modeLabel.textContent = "Dark Mode";
+      }
+    }
+
+    // Update label on toggle change
+    toggleCheckbox.addEventListener('change', function() {
+      document.body.classList.toggle('dark-mode', this.checked);
+      updateLabel();
+    });
+
+    // Set the initial label
+    updateLabel();
+  </script>
+</body>
 </html>
