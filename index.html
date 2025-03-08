@@ -63,12 +63,12 @@
       align-items: center;
       padding: 20px;
       background: var(--bg-color);
-      flex-wrap: wrap; /* Allows nav and toggle to wrap on small screens */
+      flex-wrap: wrap;
     }
 
     header nav {
       display: flex;
-      flex-wrap: wrap; /* Wraps links if they don't fit in one row */
+      flex-wrap: wrap;
     }
 
     header nav a {
@@ -83,7 +83,6 @@
       color: var(--link-hover);
     }
 
-    /* Icons styling */
     header nav a i {
       font-size: 0.9em;
       margin-right: 5px;
@@ -149,7 +148,6 @@
       justify-content: center;
       text-align: center;
       padding: 60px 20px;
-      /* Use min-height instead of fixed 90vh for better mobile responsiveness */
       min-height: 70vh;
     }
 
@@ -187,6 +185,57 @@
       background: var(--button-hover);
     }
 
+    /* Info icon tooltip styling */
+    .info-icon {
+      position: relative;
+      display: inline-block;
+      margin-left: 0.5em;
+      cursor: pointer;
+      color: var(--secondary-text);
+    }
+
+    /* Scale the info icon to 50% of the parent's size and gray it out */
+    .info-icon i {
+      font-size: 0.5em;
+      color: #999;
+      vertical-align: middle;
+    }
+
+    .info-icon .tooltip-text {
+      visibility: hidden;
+      width: 160px;
+      background-color: #555;
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -80px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .info-icon .tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #555 transparent transparent transparent;
+    }
+
+    .info-icon:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
     /* Media Query for smaller screens */
     @media (max-width: 768px) {
       .hero h1 {
@@ -198,11 +247,9 @@
       .hero p {
         font-size: 1rem;
       }
-
       header {
         padding: 10px;
       }
-
       header nav a {
         margin-left: 10px;
         margin-top: 5px;
@@ -246,15 +293,25 @@
 
   <!-- Main Hero Section -->
   <section class="hero">
-    <h1>Sudheer Kamepalli</h1>
+    <!-- Name + Info Icon with Tooltip -->
+    <h1>
+      Sudheer Kamepalli
+      <span class="info-icon">
+        <i class="fas fa-info-circle"></i>
+        <span class="tooltip-text">
+          /ˈsuː dheer/<br />
+          He/Him
+        </span>
+      </span>
+    </h1>
     <h2>Cloud Technologist</h2>
     <p>
       As a premier Cloud technologist with immense hands-on experience, I bring a
       forward-thinking leadership style and a drive for innovative solutions.
     </p>
-    <a class="cta-button" href="https://calendar.app.google/4bBkeQwWmHp4sDM48"
-      >Have a chat with me</a
-    >
+    <a class="cta-button" href="https://calendar.app.google/4bBkeQwWmHp4sDM48">
+      Have a chat with me
+    </a>
   </section>
 
   <!-- Toggle Theme Script -->
@@ -263,11 +320,9 @@
     const modeLabel = document.getElementById('mode-label');
 
     function updateLabel() {
-      if (document.body.classList.contains('dark-mode')) {
-        modeLabel.textContent = "Light Mode";
-      } else {
-        modeLabel.textContent = "Dark Mode";
-      }
+      modeLabel.textContent = document.body.classList.contains('dark-mode')
+        ? "Light Mode"
+        : "Dark Mode";
     }
 
     toggleCheckbox.addEventListener('change', function() {
