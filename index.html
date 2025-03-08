@@ -189,12 +189,10 @@
     .info-icon {
       position: relative;
       display: inline-block;
-      margin-left: 0.5em;
       cursor: pointer;
       color: var(--secondary-text);
     }
 
-    /* Scale the info icon to 50% of the parent's size and gray it out */
     .info-icon i {
       font-size: 0.5em;
       color: #999;
@@ -236,6 +234,19 @@
       opacity: 1;
     }
 
+    /* Positioning the info icon inside the last letter "i" */
+    .last-letter {
+      position: relative;
+      display: inline-block;
+    }
+
+    .last-letter .info-icon {
+      position: absolute;
+      top: -0.5em;   /* Adjust this value to position vertically */
+      right: -0.6em; /* Adjust this value to position horizontally */
+      font-size: 0.6em; /* Adjust icon size */
+    }
+
     /* Media Query for smaller screens */
     @media (max-width: 768px) {
       .hero h1 {
@@ -259,7 +270,6 @@
 </head>
 <body class="dark-mode">
   <header>
-    <!-- Navigation Links -->
     <nav>
       <a href="https://www.linkedin.com/in/digitalvisionary/" target="_blank">
         <i class="fab fa-linkedin"></i>LinkedIn
@@ -267,21 +277,16 @@
       <a href="https://github.com/bit-cloner" target="_blank">
         <i class="fab fa-github"></i>GitHub
       </a>
-      <a
-        href="https://medium.com/doit-international/infrastructure-as-software-with-pulumi-ea32e34b41e7"
-        target="_blank"
-      >
+      <a href="https://medium.com/doit-international/infrastructure-as-software-with-pulumi-ea32e34b41e7" target="_blank">
         <i class="fab fa-medium"></i>Blogs
       </a>
-      <a href="mailto:sudaxl+jobs@gmail.com">
+      <a href="/cdn-cgi/l/email-protection#33404657524b5f18595c514073545e525a5f1d505c5e">
         <i class="fas fa-envelope"></i>Contact
       </a>
       <a href="https://api.whatsapp.com/send?phone=447479215659" target="_blank">
         <i class="fab fa-whatsapp"></i>Message Me
       </a>
     </nav>
-
-    <!-- Theme Toggle Switch -->
     <div class="theme-toggle">
       <label id="mode-label" for="theme-toggle-checkbox"></label>
       <label class="switch">
@@ -293,28 +298,24 @@
 
   <!-- Main Hero Section -->
   <section class="hero">
-    <!-- Name + Info Icon with Tooltip -->
     <h1>
-      Sudheer Kamepalli
-      <span class="info-icon">
-        <i class="fas fa-info-circle"></i>
-        <span class="tooltip-text">
-          /ˈsuː dheer/<br />
-          He/Him
+      Sudheer Kamepall<span class="last-letter">i
+        <span class="info-icon">
+          <i class="fas fa-info-circle"></i>
+          <span class="tooltip-text">
+            /ˈsuː dheer/<br />He/Him
+          </span>
         </span>
       </span>
     </h1>
     <h2>Cloud Technologist</h2>
     <p>
-      As a premier Cloud technologist with immense hands-on experience, I bring a
-      forward-thinking leadership style and a drive for innovative solutions.
+      As a premier Cloud technologist with immense hands-on experience, I bring a forward-thinking leadership style and a drive for innovative solutions.
     </p>
-    <a class="cta-button" href="https://calendar.app.google/4bBkeQwWmHp4sDM48">
-      Have a chat with me
-    </a>
+    <a class="cta-button" href="https://calendar.app.google/4bBkeQwWmHp4sDM48">Have a chat with me</a>
   </section>
 
-  <!-- Toggle Theme Script -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   <script>
     const toggleCheckbox = document.getElementById('theme-toggle-checkbox');
     const modeLabel = document.getElementById('mode-label');
