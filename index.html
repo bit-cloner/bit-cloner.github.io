@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,12 +64,12 @@
       align-items: center;
       padding: 20px;
       background: var(--bg-color);
-      flex-wrap: wrap;
+      flex-wrap: wrap; /* Allows nav and toggle to wrap on small screens */
     }
 
     header nav {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: wrap; /* Wraps links if they don't fit in one row */
     }
 
     header nav a {
@@ -83,6 +84,7 @@
       color: var(--link-hover);
     }
 
+    /* Icons styling */
     header nav a i {
       font-size: 0.9em;
       margin-right: 5px;
@@ -148,6 +150,7 @@
       justify-content: center;
       text-align: center;
       padding: 60px 20px;
+      /* Use min-height instead of fixed 90vh for better mobile responsiveness */
       min-height: 70vh;
     }
 
@@ -185,68 +188,6 @@
       background: var(--button-hover);
     }
 
-    /* Info icon tooltip styling */
-    .info-icon {
-      position: relative;
-      display: inline-block;
-      cursor: pointer;
-      color: var(--secondary-text);
-    }
-
-    .info-icon i {
-      font-size: 0.5em;
-      color: #999;
-      vertical-align: middle;
-    }
-
-    .info-icon .tooltip-text {
-      visibility: hidden;
-      width: 160px;
-      background-color: #555;
-      color: #fff;
-      text-align: left;
-      border-radius: 6px;
-      padding: 8px;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      margin-left: -80px;
-      opacity: 0;
-      transition: opacity 0.3s;
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-
-    .info-icon .tooltip-text::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: #555 transparent transparent transparent;
-    }
-
-    .info-icon:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    /* Positioning the info icon inside the last letter "i" */
-    .last-letter {
-      position: relative;
-      display: inline-block;
-    }
-
-    .last-letter .info-icon {
-      position: absolute;
-      top: -0.5em;   /* Adjust this value to position vertically */
-      right: -0.6em; /* Adjust this value to position horizontally */
-      font-size: 0.6em; /* Adjust icon size */
-    }
-
     /* Media Query for smaller screens */
     @media (max-width: 768px) {
       .hero h1 {
@@ -258,9 +199,11 @@
       .hero p {
         font-size: 1rem;
       }
+
       header {
         padding: 10px;
       }
+
       header nav a {
         margin-left: 10px;
         margin-top: 5px;
@@ -270,6 +213,7 @@
 </head>
 <body class="dark-mode">
   <header>
+    <!-- Navigation Links -->
     <nav>
       <a href="https://www.linkedin.com/in/digitalvisionary/" target="_blank">
         <i class="fab fa-linkedin"></i>LinkedIn
@@ -277,16 +221,21 @@
       <a href="https://github.com/bit-cloner" target="_blank">
         <i class="fab fa-github"></i>GitHub
       </a>
-      <a href="https://medium.com/doit-international/infrastructure-as-software-with-pulumi-ea32e34b41e7" target="_blank">
+      <a
+        href="https://medium.com/doit-international/infrastructure-as-software-with-pulumi-ea32e34b41e7"
+        target="_blank"
+      >
         <i class="fab fa-medium"></i>Blogs
       </a>
-      <a href="/cdn-cgi/l/email-protection#33404657524b5f18595c514073545e525a5f1d505c5e">
+      <a href="/cdn-cgi/l/email-protection#8af9ffeeebf2e6a1e0e5e8f9caede7ebe3e6a4e9e5e7">
         <i class="fas fa-envelope"></i>Contact
       </a>
       <a href="https://api.whatsapp.com/send?phone=447479215659" target="_blank">
         <i class="fab fa-whatsapp"></i>Message Me
       </a>
     </nav>
+
+    <!-- Theme Toggle Switch -->
     <div class="theme-toggle">
       <label id="mode-label" for="theme-toggle-checkbox"></label>
       <label class="switch">
@@ -298,32 +247,291 @@
 
   <!-- Main Hero Section -->
   <section class="hero">
-    <h1>
-      Sudheer Kamepall<span class="last-letter">i
-        <span class="info-icon">
-          <i class="fas fa-info-circle"></i>
-          <span class="tooltip-text">
-            /ˈsuː dheer/<br />He/Him
-          </span>
-        </span>
-      </span>
-    </h1>
+    <h1>Sudheer Kamepalli</h1>
     <h2>Cloud Technologist</h2>
     <p>
-      As a premier Cloud technologist with immense hands-on experience, I bring a forward-thinking leadership style and a drive for innovative solutions.
+      As a premier Cloud technologist with immense hands-on experience, I bring a
+      forward-thinking leadership style and a drive for innovative solutions.
     </p>
-    <a class="cta-button" href="https://calendar.app.google/4bBkeQwWmHp4sDM48">Have a chat with me</a>
+    <a class="cta-button" href="https://calendar.app.google/4bBkeQwWmHp4sDM48"
+      >Have a chat with me</a
+    >
   </section>
+  
+<!-- Experience Timeline Section -->
+<section class="timeline">
+  <h2>Experience & Roles</h2>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-  <script>
+  <!-- Timeline Item: Doit -->
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-date">Nov 2021 - Present</div>
+    <div class="timeline-content">
+      <h3>Principal Cloud Architect @ Doit</h3>
+      <!-- Base64 Image Placeholder -->
+      <img
+        src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wgARCADIAMgDASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAcIBQYDBAkCAf/EABsBAQACAwEBAAAAAAAAAAAAAAACAwEEBQYH/9oADAMBAAIQAxAAAAGr49BrgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADYsNdZTFgZDJxsxjl4swMviMWBKoAAAAA/bjVZp7cKePnn2VSrfZXZ9mNQ3pxFuFGZI0OTc+i0HH5vC286fK72Q4eP9Qrq2rVe58lCeqAAABIN6PP/ANDubZ523Uhix5GEsVftVVLz9uZBVlrY1ZxfB0sep17W5axGd3e6/wBhY01u5gO3IOo38iPB1PAAAAAJgh9BdmLa8KZJkhtdG7kWV2Uyc/A2En9yJGn6bcdsiJKmSY5+FvPC7mgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/EACgQAAEEAgEBCAMBAAAAAAAAAAQCAwUGAQcAMBEUFSAhNDVwEhMxM//aAAgBAQABBQL7ohq9IWB2SjCogryCRpJ2HG1Mr4uJLaY62Gl5TplOMQG60YxJ+SAmBhQpkxBx4nqW/jtY6mMduaTrEUEZIrKEDhsB83X6yFJ1eMwMiNEbbtOtI2bYMEdAKrAjXh9iHQNJB+75+pHLI2y3I9KghIPt1gksw8ITZZQszXdhfsVet4SJC/T8n4NCk3GZKM1/YnbJX9xAoGsdZ+JtPygfu3v8u9PchIvEoROwqY3HRq8t4JPvtDy8eTpYvvlbr7FairZcGkbDJYHmo0nTJ+DKzX2azE7Qm25izVMzCmJqExJ8i6zkYjhlUXl6IikxbNsMwtfSqOyDa023t+CU1adtPyTP95TtkF1ptG3oFTdp229IscYfWM6JbG8petYqEotBWCm7UIpJtrx+K1qdX9//AP/EACoRAAEDBAAEBAcAAAAAAAAAAAEAAhEDBAUSBiAhMSJBccEQI1BRYJHR/9oACAEDAQE/AfrTKb6rtWCSiCDBVSjUo9KjSPXnAlBsIiStVw+ys+8iiQDB7q5a9t+5tXvt7rMYc5QsIfrrPlKuqBtazqJM68zUAUEJXDVRtPIQ7zBCvcLeVckXtb4SZlcR2V1dCm+2ExMq4xVCyxBfcN+b7z2/XPsfhsU1xadm903iTINZpsPWOqt8/f28+Pafv1V7kbnIOmu7+fgv/8QAJREAAgICAAYBBQAAAAAAAAAAAQIAAwQREBMgISIxMhIUQVBg/9oACAEBAQE/Af25OvfEkDueAYN667LBWNmWX8xdaiWCuoExcpSe4mUV5flE1yxqUX8nfaI31qG6sn5An1L3rZfGONBdy9qyvjLlP24leQgp0ZiWImw8W5rL9L66mUMNGLQincZQw0YMdFO+BxKt7jY1TfiV1JV8f4X/xAA6EAACAQICBwUGAQ0AAAAAAAABAgMABBESEyEiMTJBcQUQUVJhFDBCcoGxIAYjMzRDYnBzgIKRkuH/2gAIAQEABj8C/jQ0dhbNOV4iNQH1pra8haCZfhb8JMMRcDnRR1KsN4PdpmgYR+Pv8wRivjhV22Gsz7/pXZrYbRiYY/X8OhmbRspJ3b6eWPg3D1qH5x96kH7p97gN9R3fasS3N220IX4Y/pzNZVhQL4BafQQpDnOZsi4Ymuy/5b/cVHedrxCe4faFu3CnXxNaNLWFU8oQYU72kSWN7vDRjBW6ipbedMk0bZWU1pSgLsTiTTCNcqkBsBUHzj793Av+KwhwGztAePu+zo5BigfPh011e3oXM0MRYD1o3T38+mxxxEhGHSlludqeJtGz+b1r8m4pNaAM5HTXV5e5c5hjLBfE0blu0bhZMcQEkIUfSknuP1iNtG7D4vWoZ0GHtEOLdQcKTqa/sFQfOPvT9K/TP/tTZ2IRdZw3mkkiYlGOGB5e6srw8Ecm38u408bYS21xHhq5qaIt76L2YnUXBzAVFZQEsF1s53sfGrO5jbPb2BETEc/N96kiYiW2uY8MV5g0Vgu4WtsdTvxAdKjsoSXw1u5+JqZYWzRWy6EMOZ509uTtKcw6Uro2SVdWvnSyzuDl1hV7ibd1yHk3KiMc8jcTVHbg8O03u1tpV9rshuQnaToazMLlH8mj/wC01t2XG1pE2ppm4yPTw7hazr7XY8lx2k6VmPtKt5NFT23ZcTWsbammfjw9PDuWSNsrjnQFxGVbxSvzavI3TCjIcDGf2dbQdD4YUVtUOPneizHMx3k/0Af/xAApEAEAAgECBAYCAwEAAAAAAAABABEhMVFBYXGREDCBobHwwfEgcIDh/9oACAEBAQE/AfPJJVODsWCjDnbTZO8HhLHsIyVaFHJooR2dxqFUfPS//8QALxAAAQMBBQQKAwEAAAAAAAAAAQACAwQREiFRcSIzgbEQEyAxQlBhkaLBMEFy0f/aAAgBAQAGPwLzcySnQZptXTPs770d0GzFb34hb34hdXHLqbgwT6SodtA7L8+2ZJToM1fk4NyUPHmjUUw9XMHNdXHxOSEcQ1Oan1+kKepO14XH99oTxEuLRiz/ADoh481fk4DNPjlYyPrHWgt6J9fpXI8B4nZJrbS6wWWntGophj4mBRPk9bBnijJKdBl0CnqT/LzyU7Gd1u07JCOIYc/wWyRA8StwPcrcD3K3A9yrGCzzn//EACYQAAEDAwIHAAMAAAAAAAAAAAEAETEhUWGhsRAgQVBxwfAwkeH/2gAAgBAQABBQJU5vtzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwW2+wtt9hbb7C232FtvQS0rIYn5GyD8jZB+Rsgq7ON5yyG3jqwE6ltvQlqBlkyc8Lpm5+LnQ5NqU6VtvQlqF0/68WmklVVrCX0Za6MdK23oS1C6f8AXi08aqqNYTCsLQRjpW29CWoGSIbnhEheRzz/AJxcuZJvKvStt6EtQLIqQz+Ks6qdLI547vvWtt6EtQuC4KtU+aXNJ4bRdON/8x06ltvQlqF0/wCvtJIvpqBIGZJ/aKukVoarpW29CWoXT/r6SqUoapgeE35oF243ifpW29Bbx1pS/staJI/KSR0EUnNXFEf2WtDhdZdzoulbb7C23xbGqqeaums3WnSkcCc42n8MEYcJKv8AjVV9UgizhGlviNwNzkpKizdWRJ1aKtlq/Jbb42zY02uOBVIi6UpaeGOQEJyodhZkWFqD40IvrWqnyipGGnh8f0USU6QuQyJusb8ltvjb1yTcop8TdyTdpSiryitQVqTlRCtrEm+jqFuaiohbkm0yj4nrkm2RXyW2+MalNZF6ymvC1nSlN013an+IjPauL8fsDR9Uun9XKC/EVuiu0U9ReBqIlJ5XWSmr8ltvsLbfYW2+wtt9hUhvtwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAw//EACIRAAIBAwQCAwAAAAAAAAAAAAECAAMREhATITAxQSBAUP/aAAgBAQABBQJU5vtzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwW2+wtt9hbb7C232FtvQS0rIYn5GyD8jZB+Rsgq7ON5yyG3jqwE6ltvQlqBlkyc8Lpm5+LnQ5NqU6VtvQlqF0/68WmklVVrCX0Za6MdK23oS1C6f8AXi08aqqNYTCsLQRjpW29CWoGSIbnhEheRzz/AJxcuZJvKvStt6EtQLIqQz+Ks6qdLI547vvWtt6EtQuC4KtU+aXNJ4bRdON/8x06ltvQlqF0/wCvtJIvpqBIGZJ/aKukVoarpW29CWoXT/r6SqUoapgeE35oF243ifpW29Bbx1pS/staJI/KSR0EUnNXFEf2WtDhdZdzoulbb7C23xbGqqeaums3WnSkcCc42n8MEYcJKv8AjVV9UgizhGlviNwNzkpKizdWRJ1aKtlq/Jbb42zY02uOBVIi6UpaeGOQEJyodhZkWFqD40IvrWqnyipGGnh8f0USU6QuQyJusb8ltvjb1yTcop8TdyTdpSiryitQVqTlRCtrEm+jqFuaiohbkm0yj4nrkm2RXyW2+MalNZF6ymvC1nSlN013an+IjPauL8fsDR9Uun9XKC/EVuiu0U9ReBqIlJ5XWSmr8ltvsLbfYW2+wtt9hUhvtwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAw//Z"
+        alt="Doit Logo"
+        class="timeline-image"
+      />
+      <p>
+        Principal Cloud Architect at Doit, enabling organizations to harness cloud innovation.<br>
+        Performed AWS Well-Architected Reviews, cost optimizations, and security posture reviews.<br>
+        Acted as SME in Kubernetes, containerization, and CI/CD, building internal tooling.
+      </p>
+    </div>
+  </div>
+
+  <!-- Timeline Item: HSBC -->
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-date">Jun 2021 - Nov 2021</div>
+    <div class="timeline-content">
+      <h3>Principal Consultant @ HSBC</h3>
+      <!-- Base64 Image Placeholder -->
+      <img
+        src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wgARCABkAGQDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAUGBwME/8QAGgEBAAIDAQAAAAAAAAAAAAAAAAIDAQQFBv/aAAwDAQACEAMQAAAB1QAAAAAAAAAAAAAADwshq6N2rN8gIbsFI13Xo3RNlx21WaV4F3IAApma77RNfuzchXqFmFwv2BX/ABbW+E1ocbe/U2vNgAARXCcRug04Z49iVIMAAAAAAAAAAAAAAAf/xAAfEAACAgEEAwAAAAAAAAAAAAADBAAFFQECIDUSE1D/2gAIAQEAAQUC+u40NQJGHioZl6Zl6JPWThgWGm17k40NQLzZHDUHVXVVElCOGSVGoG67SltfPlfoEPpKDqnmxphprMftl12iCZHDC2+sfG6qvKV7Y06RxojZpS2saTI7dKLjVDzLXql1xKUxKUxKUELYLb9j/8QAKREAAQMDAQUJAAAAAAAAAAAAAQIDBAAFESESFCAykSMwMUBDUVJxgf/aAAgBAwEBPwHv4EAyTk8tR3Y4eUw4geOmlT3I8YbKUDa+qk2/skvN+2vBbLgE4Zc/KbgGTIWpXLk1cbd6rVPTxHYSlPNgUTngEh0aBR61vT3zPWic6nyP/8QAHxEAAQQCAgMAAAAAAAAAAAAAAQACAxIRQSAhMEBR/9oACAEBAgEBPxDrgaMxRRxzE7VU5/m42WSAhmjT2RcXMbFchPW+QKx2P//EACgQAQABAQcEAgIDAAAAAAAAAAERQQAhMVFhcYEQILHBUJEwoeHw8f/aAAgBAQABPxD5eLe/RcM/FlwGkgQVTAEnJl1OHClQ5JrwK2Gwg2WsgAEliLnDHHui3v0XDPxaDayptTXNr0S6zwmGY+TktFLCAt69FbQxAubWp6pZQhc2yFSbXF/0a749stPRZK0M8ysaQ9Es+1SltT20tXZ9Hv8AN46yCwYIW41WhXaW2iMiMiVV7tdczmeeZXEvxn3tSyqe2lpMy+i4f2ek2P3OY5L4eG0Fr5TjLVaFdpbYvCrvkqv8fgD3RC+BAAEqrBevZu3bmA3CpIABRVYAvcA+Z//Z"
+        alt="HSBC Logo"
+        class="timeline-image"
+      />
+      <p>
+        Championing AWS adoption and secure Terraform deployments in a regulated environment.<br>
+        Established a compliance framework with automated governance and security checks.<br>
+        Provided SME-level AWS consultancy, focusing on digital transformation and migrations.
+      </p>
+    </div>
+  </div>
+
+  <!-- Timeline Item: Reed -->
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-date">Jun 2019 - Jun 2021</div>
+    <div class="timeline-content">
+      <h3>DevOps Lead @ Reed</h3>
+      <!-- Base64 Image Placeholder -->
+      <img
+        src="data:image/png;base64,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"
+        alt="Reed Logo"
+        class="timeline-image"
+      />
+      <p>
+        Established and expanded a DevOps team to modernize legacy systems and reduce technical debt.<br>
+        Improved deployment frequency and reliability via Kubernetes, Pulumi-based IaC, and CI/CD.<br>
+        Enhanced security and observability with Prometheus, ELK, and Grafana, mentoring teams on best practices.
+      </p>
+    </div>
+  </div>
+
+  <!-- Timeline Item: Insurance & Finance – EY -->
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-date">Jan 2019 - Jun 2019</div>
+    <div class="timeline-content">
+      <h3>Cloud & DevOps Consultant @ EY</h3>
+      <!-- Base64 Image Placeholder -->
+      <img
+        src="data:image/png;base64,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"
+        alt="EY Logo"
+        class="timeline-image"
+      />
+      <p>
+        Optimized a blockchain insurance product on Azure, cutting costs and simplifying support.<br>
+        Re-engineered the application into a Kubernetes-based PaaS, introducing DevOps CI/CD patterns.<br>
+        Accelerated deployments from weeks to days, enabling rapid releases and A/B testing.
+      </p>
+    </div>
+  </div>
+
+  <!-- Timeline Item: Kainos @ DWP -->
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-date">Jun 2018 - Jan 2019</div>
+    <div class="timeline-content">
+      <h3>Technical Architect / SRE @ DWP</h3>
+      <!-- Base64 Image Placeholder -->
+      <img
+        src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wgARCADIAMgDASIAAhEBAxEB/8QAHAABAAICAwEAAAAAAAAAAAAAAAcIBQYBAwQC/8QAGgEBAAMBAQEAAAAAAAAAAAAAAAEDBQYCAf/2gAMAwEAAhADEAAAABtSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeU9T5+gAAAAAAAAAABXCx9cN85wz+A1TO0lMDrUTIau+63rKdc51i2U0c/EUZ2lpXzdr1k0wnLbNo793jt2caH7zfVd5rvGdap6qzsIrKuFj64b5+7HxVczWnmrhNOq0tLVV7g1+iZMgGfoBvW1dK7qVfibFVft9WKFj4Amms3zfjb359d6Pl+OcoKk/e/vfX6shAGx9/dIPp3NhcK2Vwsf1XrpdfbdfF41+sdvOYV7i+32U0rp8A2x6qW4q/ajpq7qxWd6U+KF5655+Ol2WtX7Ob5/DV/s78eh9TAGKnvN6TyMNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//EAC8QAAAGAgADBgQHAAAAAAAAAAECAwQFBgAHETM1EBQgNDY3EhMVcBYXISUwMUD/2gAIAQEAAQUC+8SztFthTAcv+fbvMr/QfFN7Ffx9jAeIfz7d5lf6DY72yrziFklJZjYrwwrx0tulFR/sKPaxkTIllo2Xn4lvbTm+AkRsZjJC622kVWt3xlYVskZVGOD8RLmFtZCicBAwWa4s6yCW3SipDzTSdaSc2LNaKlvqA9m3eZLXgsLXqRSTPFLDJ/RYWiVstmfjCx4o36tErz2l+lrN7kOPL02CCwzSMDGoI3qJJWbAR0UWKj8zxwC/6KrZUJEXLe0im22CROEsLOEgWlfaS0cr3uCjlUD9m3eZ3JWtvoiWbTTHYiRlanqdchojNtrk7rS/S1m9yHHl9T9czbfUSpCvXEnHw4DrFHWa/KZRafrLGxpSWr3zHNfW128eeDbvMbRDabqf7lrabZPmVoiV2kpruZ/NwvybKSTfpUv0tZvchx5fU/W8231GL6ba6oqg44iGR0W6lloWJThmEjJT9NnlNto/J11Eu3034DpEVwA4AdMqmETKnhyFUKnCx6Kh0iKYUoFAUEzGwiKaY4dFNXP67FI9qsYiZUi4chVChBRpTgHAPvJ//8QAIxEAAgIBAwQDAQAAAAAAAAAAAAECESEDBBIFIjEyEEFgE//aAAgBAwEBPxHq1g8KK9TMW2HzE3DEnFTWpFc7Rh8qfrfUdvFSNdO/q2EUpTkFhcjkGrQbfL/AL8dY6vKvED4nfk+1VOoDUB8DUJS0ZdB5mqCSrX+fiNUPVQWjXSC5NmxOlJ+3BCO/1JbOL66D52DvyUn22tHwdTV5Pp2/lV+6pUpZ4o/qaa/7FwcLc54fIKekX1eLrNV7lrCybZ1KSNlZuKpWepI6R8V6ONaXNVDZTrXqup3ljrTxAABZmxf0/hd4s13L1POMeEPoN5eQDGJXmC2+TZGekawJkN27Swlxk7u5R+g3MT1YzG3XU3QAAAAA=="
+        alt="Kainos Logo"
+        class="timeline-image"
+      />
+      <p>
+        Refined in-house DevOps models for high-impact nationwide services.<br>
+        Proposed cloud-native roadmaps, established non-functional requirements, and secured buy-in.<br>
+        Formed an SRE team for Universal Credit, ensuring robust and scalable cloud infrastructure.
+      </p>
+    </div>
+  </div>
+
+  <!-- Timeline Item: UK Public Sector -->
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-date">Apr 2015 - Jun 2018</div>
+    <div class="timeline-content">
+      <h3>Technical Consultant (DevOps, Cloud)</h3>
+      <!-- Base64 Image Placeholder -->
+      <img
+        src="data:image/png;base64,BASE64_PLACEHOLDER"
+        alt="Public Sector Logo"
+        class="timeline-image"
+      />
+      <p>
+        Served the ORBIS Partnership in transitioning on-premises systems to modern cloud solutions.<br>
+        Guided teams on secure, compliant deployments while streamlining ops through automation.<br>
+        Drove continuous improvement in DevOps practices across multiple public-sector initiatives.
+      </p>
+    </div>
+  </div>
+
+  <!-- Timeline Item: CapGemini -->
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-date">Oct 2010 - May 2012</div>
+    <div class="timeline-content">
+      <h3>Integration Architect @ CapGemini</h3>
+      <!-- Base64 Image Placeholder -->
+      <img
+        src="data:image/png;base64,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"
+        alt="CapGemini Logo"
+        class="timeline-image"
+      />
+      <p>
+        Led enterprise integration strategies for Centrica, ensuring seamless data flows.<br>
+        Collaborated with cross-functional teams to meet performance and reliability standards.<br>
+        Oversaw middleware deployments that unified complex systems in a ~30-person team.
+      </p>
+    </div>
+  </div>
+
+  <!-- Timeline Item: Accenture -->
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-date">Aug 2009 - Mar 2010</div>
+    <div class="timeline-content">
+      <h3>Integration Specialist @ Accenture</h3>
+      <!-- Base64 Image Placeholder -->
+      <img
+        src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wgARCADIAMgDASIAAhEBAxEB/8QAHAABAQEAAgMBAAAAAAAAAAAAAAcIBQYBAwQC/8QAGwEBAAIDAQEAAAAAAAAAAAAAAAEDBQYCAf/2gAMAwEAAhADEAAAAdUgAAAAAAAAAAAAAAPh+3198jz8AAAAAAAAAAAjkYs+des3XQNZxL78PjczM1gpNe7y8eYKOAAAAAAAAAjmddFZ169eAs8wB2iv54Q2ht778N1Gk1/Sbpnc6hBBgxgAAAAAdVz/AKqTslhT87PkN7sUOcvxFqmg9+gHbepMOPRlUw/9dQg9xM41+k1/t4hY8AAAAAD1TanNvPlHoO7OuXOexqtkmutg4wSW2ABoO1Qi78ZoQQEYAAAAAAOAyeuf+KHyW2zfdpmdJtgbecC7XeEXfjdDCvRYAAABwkilNy6TnOvDXawUOfflcZ4NrMAPq+fPlVqwVmI6NbDmFQDQ1gAAOrQOhZ16Zbf3+C82IH0A99O0teVdp0Z3ilwEaq33qXXwj9YAAAACOZ10VnXr14Hts0v6lQsFcis5V+1eaTX+N5Iq0MHn4AAAAAABHIpr77rbNxGtcshI8I3UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//xAAiEAABAwQDAQADAAAAAAAAAAAFAgMEAAEGBzA1QCAQEWD/2gAIAQEAAQUC/j5U5iFVr/u3n2Z1gzIZ4i4vZLS6gkopJvy7M6z8MvuR3Bewp8OheZDCfk2Z1nyLyUgIoXsiO9UOfHIN+DZnWfceS7EcF7EmxaF5cNK8+QgG8hiFMGJDqUm6FcAvKSImhexor9RZrE5vlJAoJZJTWyrVPEyxa+CNLehOC9jS49C8rHFuZ1pDyCmAD51FMJJDava6b8GtZj8lvnJ4/ALWKa3dRU4ZKGufWr/FLsxdjJ7Y/a/zq/wEjsETYpslaqnlZZNf1q/lW4lpJTPR0CimckiNKVdd+DWkV5hviImoQpJTZNEDMwqrgjxXZbgvXc2VQvERoriyA+1j8UpnhKfS1qcVwC8ZIF6F64js1DgR4DfHszrPthhyS4L15Ol0Lw4YL59mdZ8jMenl7i9bMt1CGxhrfg2Z1n4aaW+sXr8hNoXhQ0bVrfq3i2Z1g0DOLXF62QmoAqIMR5ZcCPOpKbJt/Pf/xAAtEQABAgUBBgUFAQAAAAAAAAADAQIABAURITAQEiAiMWEyMzSBsRMUQVCRcf/aAAgBAQABBQJU5vtzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwzMMzDMwW2+wtt9hbb7C232FtvQS0rIYn5GyD8jZB+Rsgq7ON5yyG3jqwE6ltvQlqBlkyc8Lpm5+LnQ5NqU6VtvQlqF0/68WmklVVrCX0Za6MdK23oS1C6f8AXi08aqqNYTCsLQRjpW29CWoGSIbnhEheRzz/AJxcuZJvKvStt6EtQLIqQz+Ks6qdLI547vvWtt6EtQuC4KtU+aXNJ4bRdON/8x06ltvQlqF0/wCvtJIvpqBIGZJ/aKukVoarpW29CWoXT/r6SqUoapgeE35oF243ifpW29Bbx1pS/staJI/KSR0EUnNXFEf2WtDhdZdzoulbb7C23xbGqqeaums3WnSkcCc42n8MEYcJKv8AjVV9UgizhGlviNwNzkpKizdWRJ1aKtlq/Jbb42zY02uOBVIi6UpaeGOQEJyodhZkWFqD40IvrWqnyipGGnh8f0USU6QuQyJusb8ltvjb1yTcop8TdyTdpSiryitQVqTlRCtrEm+jqFuaiohbkm0yj4nrkm2RXyW2+MalNZF6ymvC1nSlN013an+IjPauL8fsDR9Uun9XKC/EVuiu0U9ReBqIlJ5XWSmr8ltvsLbfYW2+wtt9hUhvtwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAwwMMDDAw//Z"
+        alt="Accenture Logo"
+        class="timeline-image"
+      />
+      <p>
+        Implemented enterprise integration workflows for Unilever with a ~15-member team.<br>
+        Streamlined data exchange across diverse systems, optimizing stability and performance.<br>
+        Employed rigorous testing and continuous improvement to enhance solution quality.
+      </p>
+    </div>
+  </div>
+
+  <!-- Timeline Item: IBM Ab Swenska, Sweden -->
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-date">Mar 2007 - Oct 2007</div>
+    <div class="timeline-content">
+      <h3>EDI Consultant @ IBM Ab Swenska</h3>
+      <!-- Base64 Image Placeholder -->
+      <img
+        src="data:image/png;base64,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"
+        alt="IBM Logo"
+        class="timeline-image"
+      />
+      <p>
+        Implemented SAP XI 3.0 for Akademibokhandeln, ensuring efficient EDI workflows.<br>
+        Architected solutions to streamline data exchange in the publishing sector.<br>
+        Collaborated closely with a small team to integrate complex business processes seamlessly.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Minimal Timeline Styles (aligns with your existing CSS variables) -->
+<style>
+.timeline {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.timeline h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: var(--text-color);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+.timeline-marker {
+  position: absolute;
+  left: -9px;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  background-color: var(--button-bg);
+  border-radius: 50%;
+}
+.timeline-date {
+  margin-left: 40px;
+  font-weight: bold;
+  color: var(--secondary-text);
+  margin-bottom: 6px;
+}
+.timeline-content {
+  margin-left: 40px;
+  background: var(--bg-color);
+  border-left: 2px solid var(--button-bg);
+  padding: 10px 20px;
+  color: var(--text-color);
+  line-height: 1.5;
+  position: relative;
+}
+
+/* Subtle vertical line behind the timeline */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 9px; /* aligns with the marker center */
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--button-bg);
+  opacity: 0.2; /* a faint vertical line */
+}
+
+/* Image styling within each timeline item */
+.timeline-image {
+  max-width: 60px;
+  height: auto;
+  margin: 10px 0;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .timeline-item {
+    margin-left: 30px;
+  }
+  .timeline-marker {
+    left: -18px;
+  }
+  .timeline-date,
+  .timeline-content {
+    margin-left: 20px;
+  }
+}
+</style>
+
+
+
+
+  <!-- Toggle Theme Script -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const toggleCheckbox = document.getElementById('theme-toggle-checkbox');
     const modeLabel = document.getElementById('mode-label');
 
     function updateLabel() {
-      modeLabel.textContent = document.body.classList.contains('dark-mode')
-        ? "Light Mode"
-        : "Dark Mode";
+      if (document.body.classList.contains('dark-mode')) {
+        modeLabel.textContent = "Light Mode";
+      } else {
+        modeLabel.textContent = "Dark Mode";
+      }
     }
 
     toggleCheckbox.addEventListener('change', function() {
