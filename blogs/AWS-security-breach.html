@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>AWS Security Breaches - Collapsible Tree</title>
+  <style>
+    .title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 24px;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    /* Body and container styling */
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8f9fa;
+      width: 100%;
+      height: 100vh;
+      color: #2c3e50;
+    }
+    #tree-container {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+    }
+    svg {
+      font: 14px 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: block;
+      margin: auto;
+    }
+    .link {
+      fill: none;
+      stroke: #cbd5e1;
+      stroke-opacity: 0.6;
+      stroke-width: 1.5px;
+      transition: stroke 0.3s ease;
+    }
+    .node {
+      cursor: pointer;
+    }
+    .node circle {
+      fill: #e2e8f0;
+      stroke: #94a3b8;
+      stroke-width: 1.5px;
+      transition: all 0.3s ease;
+    }
+    .node:hover circle {
+      fill: #bae6fd;
+      stroke: #0ea5e9;
+      transform: scale(1.1);
+    }
+    .node text {
+      fill: #475569;
+      font-size: 13px;
+      font-weight: 500;
+      transition: fill 0.3s ease;
+    }
+    .node:hover text {
+      fill: #0f172a;
+      font-weight: 600;
+    }
+    /* Different colors for different levels */
+    .node--level-0 circle {
+      fill: #fae8ff;
+      stroke: #d946ef;
+    }
+    .node--level-1 circle {
+      fill: #e0f2fe;
+      stroke: #0ea5e9;
+    }
+    .node--level-2 circle {
+      fill: #f0fdf4;
+      stroke: #22c55e;
+    }
+    .node--level-3 circle {
+      fill: #fff7ed;
+      stroke: #f97316;
+    }
+  </style>
+</head>
+<body>
+<div id="tree-container">
+  <div class="title">AWS Security Breach Phases</div>
+</div>
+
+<!-- Load D3 v7 from CDN -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+// Initialize counter for node IDs
+let i = 0;
+
+// -----------------------------------------------------
+// 1) Hierarchical data (AWS Security Breaches)
+// -----------------------------------------------------
+const treeData = {
+  "name": "Security Breach phases",
+  "children": [
+    {
+      "name": "Detecting a Security Breach in AWS",
+      "children": [
+        {
+          "name": "Common Signs",
+          "children": [
+            { "name": "Unexpected billing increases" },
+            { "name": "Unusual API or access logs" },
+            { "name": "Unauthorized IAM activity" },
+            { "name": "Network traffic anomalies" }
+          ]
+        },
+        {
+          "name": "AWS Tools",
+          "children": [
+            { "name": "AWS CloudTrail" },
+            { "name": "AWS GuardDuty" },
+            { "name": "Amazon Athena" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Containing the Breach",
+      "children": [
+        {
+          "name": "Why Containment Matters",
+          "children": [
+            { "name": "Prevents lateral movement" },
+            { "name": "Minimizes data loss" },
+            { "name": "Protects sensitive info" }
+          ]
+        },
+        {
+          "name": "Containment Steps",
+          "children": [
+            { "name": "DenyAll on compromised IAM" },
+            { "name": "Deactivate leaked access keys" },
+            { "name": "Isolate EC2 (restrictive SGs)" },
+            { "name": "Remove compromised roles" },
+            { "name": "Use AWS Control Tower" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Remediating the Breach",
+      "children": [
+        {
+          "name": "Steps to Recover",
+          "children": [
+            { "name": "Rotate IAM credentials often" },
+            { "name": "Patch systems (Patch Manager)" },
+            { "name": "Secure CI/CD pipelines" },
+            { "name": "Check for malware/backdoors" },
+            { "name": "Investigate logs thoroughly" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reporting the Incident",
+      "children": [
+        {
+          "name": "Why Report It?",
+          "children": [
+            { "name": "AWS might have restricted your account" },
+            { "name": "Possible refunds if cryptojacking" }
+          ]
+        },
+        {
+          "name": "Post-incident Review",
+          "children": [
+            { "name": "Document timeline & cause" },
+            { "name": "Identify security gaps" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Preventing Future Breaches",
+      "children": [
+        {
+          "name": "Best Practices",
+          "children": [
+            { "name": "Enable MFA (especially root)" },
+            { "name": "Limit IAM permissions" },
+            { "name": "Use Service Control Policies" },
+            { "name": "Monitor logs (CloudWatch, Hub)" },
+            { "name": "Restrict unused regions" },
+            { "name": "Use AWS WAF" },
+            { "name": "Well-Architected Reviews" }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+// -----------------------------------------------------
+// 2) Setup SVG & layout constants
+// -----------------------------------------------------
+const margin = { top: 20, right: 90, bottom: 30, left: 200 },
+      width  = 1200 - margin.left - margin.right,
+      height = 800 - margin.top  - margin.bottom;
+
+// Create a D3 tree layout
+const treemap = d3.tree().size([height, width]);
+
+// Append the svg object
+const svg = d3.select("#tree-container").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+// Convert data to a hierarchy
+let root = d3.hierarchy(treeData, d => d.children);
+root.x0 = height / 2;
+root.y0 = 0;
+
+// Collapse after the second level by default (optional)
+root.children && root.children.forEach(collapseAll);
+
+// Draw the initial tree
+update(root);
+
+// -----------------------------------------------------
+// 3) Functions
+// -----------------------------------------------------
+
+// Collapse the node and all it's children
+function collapseAll(d) {
+  if (d.children) {
+    d._children = d.children;
+    d._children.forEach(collapseAll);
+    d.children = null;
+  }
+}
+
+// Toggle children on click
+function click(event, d) {
+  if (d.children) {
+    d._children = d.children;
+    d.children = null;
+  } else {
+    d.children = d._children;
+    d._children = null;
+  }
+  update(d);
+}
+
+// Update the tree visualization
+function update(source) {
+  // Assigns the x and y position for the nodes
+  const treeData = treemap(root);
+
+  // Compute the new tree layout.
+  const nodes = treeData.descendants(),
+        links = treeData.links();
+
+  // Normalize for fixed-depth
+  nodes.forEach(d => d.y = d.depth * 180);
+
+  // ----------------- Nodes section -----------------
+  const node = svg.selectAll("g.node")
+    .data(nodes, d => d.id || (d.id = ++i));
+
+  // Enter new nodes at the source's previous position
+  const nodeEnter = node.enter().append("g")
+    .attr("class", d => `node node--level-${d.depth}`)
+    .attr("transform", _ => `translate(${source.y0},${source.x0})`)
+    .on("click", click);
+
+  // Add circle for the nodes
+  nodeEnter.append("circle")
+    .attr("class", "node")
+    .attr("r", 1e-6)
+    .style("fill", d => d._children ? "lightsteelblue" : null);
+
+  // Add labels for the nodes
+  nodeEnter.append("text")
+    .attr("dy", ".35em")
+    .attr("x", d => {
+        if (d.depth === 0) return -20;  // Special case for root node
+        return d.children || d._children ? -13 : 13;
+    })
+    .attr("text-anchor", d => {
+        if (d.depth === 0) return "end";  // Special case for root node
+        return d.children || d._children ? "end" : "start";
+    })
+    .text(d => d.data.name)
+    .style("fill-opacity", 1e-6);
+
+  // UPDATE
+  const nodeUpdate = nodeEnter.merge(node);
+
+  // Transition to the proper position
+  nodeUpdate.transition()
+    .duration(600)
+    .attr("transform", d => `translate(${d.y},${d.x})`);
+
+  // Update circles
+  nodeUpdate.select("circle")
+    .transition()
+    .duration(600)
+    .attr("r", 6)
+    .attr("cursor", "pointer");
+
+  // Update text
+  nodeUpdate.select("text")
+    .transition()
+    .duration(600)
+    .style("fill-opacity", 1);
+
+  // Remove exiting nodes
+  const nodeExit = node.exit().transition()
+    .duration(600)
+    .attr("transform", _ => `translate(${source.y},${source.x})`)
+    .remove();
+
+  nodeExit.select("circle")
+    .attr("r", 1e-6);
+
+  nodeExit.select("text")
+    .style("fill-opacity", 1e-6);
+
+  // ----------------- Links section -----------------
+  const link = svg.selectAll("path.link")
+    .data(links, d => d.target.id);
+
+  // Enter any new links at the source's previous position
+  const linkEnter = link.enter().insert("path", "g")
+    .attr("class", "link")
+    .attr("d", _ => {
+      const o = {x: source.x0, y: source.y0};
+      return diagonal({source: o, target: o});
+    });
+
+  // UPDATE
+  const linkUpdate = linkEnter.merge(link);
+
+  // Transition links to new position
+  linkUpdate.transition()
+    .duration(600)
+    .attr("d", d => diagonal(d));
+
+  // Remove exiting links
+  const linkExit = link.exit().transition()
+    .duration(600)
+    .attr("d", _ => {
+      const o = {x: source.x, y: source.y};
+      return diagonal({source: o, target: o});
+    })
+    .remove();
+
+  // Store the old positions for transition
+  nodes.forEach(d => {
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+
+  // Creates a curved (diagonal) path
+  function diagonal(d) {
+    return `M${d.source.y},${d.source.x}
+            C${(d.source.y + d.target.y) / 2},${d.source.x}
+             ${(d.source.y + d.target.y) / 2},${d.target.x}
+             ${d.target.y},${d.target.x}`;
+  }
+}
+
+// -----------------------------------------------------
+// 4) Utility
+// -----------------------------------------------------
+</script>
+
+</body>
+</html>
