@@ -1,0 +1,58 @@
+/* Logo Carousel Styling */
+.partners-section {
+  padding: 2rem 0;
+  overflow: hidden;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.logo-carousel {
+  overflow: hidden;
+  padding: 20px 0;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+
+.logo-slide {
+  display: inline-block;
+  animation: slide 30s linear infinite;
+}
+
+.logo-slide img {
+  height: 60px;
+  margin: 0 40px;
+  vertical-align: middle;
+  filter: grayscale(100%);
+  transition: all 0.3s ease;
+}
+
+.logo-slide img:hover {
+  filter: grayscale(0%);
+  transform: scale(1.1);
+}
+
+/* Dark mode compatibility */
+@media (prefers-color-scheme: dark) {
+  .logo-slide img {
+    filter: grayscale(100%) brightness(0.8) invert(0.8);
+  }
+  
+  .logo-slide img:hover {
+    filter: grayscale(0%) brightness(0.8) invert(0.8);
+  }
+}
+
+/* Animation for the sliding effect */
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+} 
