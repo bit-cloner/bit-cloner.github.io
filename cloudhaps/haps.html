@@ -413,7 +413,27 @@
                 const thumbnail = article.thumbnail || 
                                 article.enclosure?.link || 
                                 article.content?.match(/<img[^>]+src="([^">]+)"/)?.[1] || 
-                                'https://via.placeholder.com/400x250';
+                                `data:image/svg+xml;base64,${btoa(`
+                                    <svg width="400" height="250" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="400" height="250" fill="#f8f9fa"/>
+                                        <g transform="translate(50, 125)">
+                                            <path d="M0,0 C20,-40 40,-60 60,-60 C80,-60 100,-40 120,0 C140,40 160,60 180,60 C200,60 220,40 240,0" 
+                                                  stroke="#2c3e50" 
+                                                  stroke-width="4" 
+                                                  fill="none"/>
+                                            <circle cx="0" cy="0" r="10" fill="#2c3e50"/>
+                                            <circle cx="120" cy="0" r="10" fill="#2c3e50"/>
+                                            <circle cx="240" cy="0" r="10" fill="#2c3e50"/>
+                                        </g>
+                                        <text x="200" y="140" 
+                                              font-family="'Source Sans Pro', sans-serif" 
+                                              font-size="16" 
+                                              fill="#6c757d" 
+                                              text-anchor="middle">
+                                            No image available
+                                        </text>
+                                    </svg>
+                                `)}`;
                 
                 const pubDate = new Date(article.pubDate).toLocaleDateString('en-US', {
                     year: 'numeric',
