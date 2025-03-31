@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Blog Articles</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --aws-color: #FF9900;
+            --gcp-color: #4285F4;
+            --azure-color: #0d3f66;
+        }
+
+        /* Ticker Styles */
+        .ticker-container {
+            background-color: #1a1a1a;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .ticker-track {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scroll-left 30s linear infinite;
+            padding: 0 20px;
+        }
+
+        .ticker-container:hover .ticker-track {
+            animation-play-state: paused;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            margin: 0 40px;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .ticker-item a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .ticker-item a:hover {
+            color: var(--gcp-color);
+        }
+
+        .ticker-item .incident-date {
+            color: #888;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: #2c3e50;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            color: #2c3e50;
+        }
+
+        .article-meta {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .article-content {
+            color: #2c3e50;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .tag-filter {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tag-button {
+            margin: 0.25rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            border: 2px solid;
+            background: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .tag-button[data-provider="aws"] {
+            border-color: var(--aws-color);
+            color: var(--aws-color);
+        }
+
+        .tag-button[data-provider="gcp"] {
+            border-color: var(--gcp-color);
+            color: var(--gcp-color);
+        }
+
+        .tag-button[data-provider="azure"] {
+            border-color: var(--azure-color);
+            color: var(--azure-color);
+        }
+
+        .tag-button.active {
+            color: white;
+        }
+
+        .tag-button[data-provider="aws"].active {
+            background: var(--aws-color);
+        }
+
+        .tag-button[data-provider="gcp"].active {
+            background: var(--gcp-color);
+        }
+
+        .tag-button[data-provider="azure"].active {
+            background: var(--azure-color);
+        }
+
+        .tag-button:hover {
+            color: white;
+        }
+
+        .tag-button[data-provider="aws"]:hover {
+            background: var(--aws-color);
+        }
+
+        .tag-button[data-provider="gcp"]:hover {
+            background: var(--gcp-color);
+        }
+
+        .tag-button[data-provider="azure"]:hover {
+            background: var(--azure-color);
+        }
+
+        .provider-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .aws-badge {
+            background: var(--aws-color);
+        }
+
+        .gcp-badge {
+            background: var(--gcp-color);
+        }
+
+        .azure-badge {
+            background: var(--azure-color);
+        }
+
+        .btn-outline-primary {
+            font-weight: 600;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Ticker Section -->
+    <div class="ticker-container">
+        <div class="ticker-track" id="incident-ticker">
+            Loading cloud incidents...
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <h1 class="page-title">Cloud Blog Articles</h1>
+        
+        <!-- Tag Filter Section -->
+        <div class="tag-filter text-center">
+            <h3 class="section-title">Filter by Cloud Provider</h3>
+            <div class="d-flex justify-content-center flex-wrap">
+                <button class="tag-button active" data-provider="aws">AWS</button>
+                <button class="tag-button active" data-provider="gcp">Google Cloud</button>
+                <button class="tag-button active" data-provider="azure">Azure</button>
+            </div>
+        </div>
+
+        <div id="articles-container" class="row">
+            <!-- Articles will be dynamically inserted here -->
+        </div>
+        <div id="loading-spinner" class="loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Incident Feed Configuration
+        const INCIDENT_FEEDS = {
+            gcp: 'https://status.cloud.google.com/en/feed.atom'
+            // Add AWS and Azure feeds when available
+        };
+
+        // Function to fetch and display incidents
+        async function fetchIncidents() {
+            const ticker = document.getElementById('incident-ticker');
+            
+            try {
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(INCIDENT_FEEDS.gcp)}`);
+                const data = await response.json();
+                
+                if (data.status === 'ok' && data.items) {
+                    ticker.innerHTML = '';
+                    
+                    const items = data.items.slice(0, 10).map(item => {
+                        const date = new Date(item.pubDate).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                        
+                        const span = document.createElement('span');
+                        span.className = 'ticker-item';
+                        span.innerHTML = `
+                            <a href="${item.link}" target="_blank">
+                                ${item.title}
+                                <span class="incident-date">${date}</span>
+                            </a>
+                        `;
+                        return span;
+                    });
+
+                    // Append items twice for seamless looping
+                    items.concat(items).forEach(item => ticker.appendChild(item.cloneNode(true)));
+                }
+            } catch (error) {
+                console.error('Incident Feed Error:', error);
+                ticker.innerHTML = 'Unable to load cloud incidents.';
+            }
+        }
+
+        // RSS2JSON API configuration
+        const FEEDS = {
+            aws: 'https://aws.amazon.com/blogs/aws/feed/',
+            gcp: 'https://blog.google/products/google-cloud/rss',
+            azure: 'https://azure.microsoft.com/en-us/blog/feed/'
+        };
+
+        let allArticles = [];
+        let activeProviders = new Set(['aws', 'gcp', 'azure']);
+
+        // Function to fetch articles from a single feed
+        async function fetchFeed(feedUrl, provider) {
+            const RSS2JSON_API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
+            const response = await fetch(RSS2JSON_API_URL);
+            const data = await response.json();
+            
+            if (data.status === 'ok' && data.items) {
+                return data.items.map(item => ({
+                    ...item,
+                    provider
+                }));
+            }
+            return [];
+        }
+
+        // Function to fetch all articles
+        async function fetchAllArticles() {
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const articlesContainer = document.getElementById('articles-container');
+            
+            loadingSpinner.style.display = 'block';
+            articlesContainer.innerHTML = '';
+            
+            try {
+                const [awsArticles, gcpArticles, azureArticles] = await Promise.all([
+                    fetchFeed(FEEDS.aws, 'aws'),
+                    fetchFeed(FEEDS.gcp, 'gcp'),
+                    fetchFeed(FEEDS.azure, 'azure')
+                ]);
+                
+                allArticles = [...awsArticles, ...gcpArticles, ...azureArticles]
+                    .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                
+                displayArticles();
+            } catch (error) {
+                console.error('Error fetching articles:', error);
+                articlesContainer.innerHTML = `
+                    <div class="col-12 text-center">
+                        <p class="text-danger">Error loading articles. Please try again later.</p>
+                    </div>
+                `;
+            } finally {
+                loadingSpinner.style.display = 'none';
+            }
+        }
+
+        // Function to display articles based on active providers
+        function displayArticles() {
+            const articlesContainer = document.getElementById('articles-container');
+            articlesContainer.innerHTML = '';
+            
+            const filteredArticles = allArticles.filter(article => 
+                activeProviders.has(article.provider)
+            );
+            
+            filteredArticles.forEach((article, index) => {
+                const articleElement = document.createElement('div');
+                articleElement.className = 'col-md-6 col-lg-4';
+                articleElement.setAttribute('data-aos', 'fade-up');
+                articleElement.setAttribute('data-aos-delay', index * 100);
+                
+                const thumbnail = article.thumbnail || 
+                                article.enclosure?.link || 
+                                article.content?.match(/<img[^>]+src="([^">]+)"/)?.[1] || 
+                                'https://via.placeholder.com/400x250';
+                
+                const pubDate = new Date(article.pubDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                articleElement.innerHTML = `
+                    <div class="article-card">
+                        <div class="position-relative">
+                            <img src="${thumbnail}" 
+                                 alt="${article.title}" 
+                                 class="article-image">
+                            <span class="provider-badge ${article.provider}-badge">
+                                ${article.provider.toUpperCase()}
+                            </span>
+                        </div>
+                        <div class="p-4">
+                            <h2 class="article-title">${article.title}</h2>
+                            <div class="article-meta">
+                                <span>${pubDate}</span>
+                                <span class="mx-2">•</span>
+                                <span>${article.author || 'Anonymous'}</span>
+                            </div>
+                            <p class="article-content">${article.description}</p>
+                            <a href="${article.link}" 
+                               class="btn btn-outline-primary" 
+                               target="_blank">
+                                Read More
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                articlesContainer.appendChild(articleElement);
+            });
+        }
+
+        // Tag filter click handler
+        document.querySelectorAll('.tag-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const provider = button.dataset.provider;
+                button.classList.toggle('active');
+                
+                if (button.classList.contains('active')) {
+                    activeProviders.add(provider);
+                } else {
+                    activeProviders.delete(provider);
+                }
+                
+                displayArticles();
+            });
+        });
+
+        // Fetch incidents and articles when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchIncidents();
+            fetchAllArticles();
+        });
+    </script>
+</body>
+</html>
