@@ -342,7 +342,7 @@
         // RSS2JSON API configuration
         const FEEDS = {
             aws: 'https://aws.amazon.com/blogs/aws/feed/',
-            gcp: 'https://blog.google/products/google-cloud/rss',
+            gcp: 'https://cloudblog.withgoogle.com/rss/',
             azure: 'https://azure.microsoft.com/en-us/blog/feed/'
         };
 
@@ -395,6 +395,24 @@
             }
         }
 
+        // Function to clean HTML content and limit text length
+        function cleanAndLimitText(text, maxLength = 150) {
+            // Remove HTML tags
+            const div = document.createElement('div');
+            div.innerHTML = text;
+            let cleanText = div.textContent || div.innerText || '';
+            
+            // Remove extra whitespace
+            cleanText = cleanText.replace(/\s+/g, ' ').trim();
+            
+            // Limit length
+            if (cleanText.length > maxLength) {
+                cleanText = cleanText.substring(0, maxLength) + '...';
+            }
+            
+            return cleanText;
+        }
+
         // Function to display articles based on active providers
         function displayArticles() {
             const articlesContainer = document.getElementById('articles-container');
@@ -415,15 +433,46 @@
                                 article.content?.match(/<img[^>]+src="([^">]+)"/)?.[1] || 
                                 `data:image/svg+xml;base64,${btoa(`
                                     <svg width="400" height="250" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="400" height="250" fill="#f8f9fa"/>
-                                        <g transform="translate(50, 125)">
-                                            <path d="M0,0 C20,-40 40,-60 60,-60 C80,-60 100,-40 120,0 C140,40 160,60 180,60 C200,60 220,40 240,0" 
-                                                  stroke="#2c3e50" 
-                                                  stroke-width="4" 
-                                                  fill="none"/>
-                                            <circle cx="0" cy="0" r="10" fill="#2c3e50"/>
-                                            <circle cx="120" cy="0" r="10" fill="#2c3e50"/>
-                                            <circle cx="240" cy="0" r="10" fill="#2c3e50"/>
+                                        <defs>
+                                            <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" style="stop-color:${article.provider === 'aws' ? '#FF9900' : 
+                                                                         article.provider === 'gcp' ? '#4285F4' : 
+                                                                         '#0d3f66'};stop-opacity:0.1"/>
+                                                <stop offset="100%" style="stop-color:${article.provider === 'aws' ? '#FF9900' : 
+                                                                         article.provider === 'gcp' ? '#4285F4' : 
+                                                                         '#0d3f66'};stop-opacity:0.3"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <rect width="400" height="250" fill="url(#cloudGradient)"/>
+                                        <g transform="translate(200, 125)">
+                                            <path d="M-60,-30 
+                                                     C-60,-50 -40,-60 -20,-60 
+                                                     C0,-60 20,-50 20,-30 
+                                                     C20,-10 40,0 60,0 
+                                                     C80,0 100,-10 100,-30 
+                                                     C100,-50 80,-60 60,-60 
+                                                     C40,-60 20,-50 20,-30 
+                                                     C20,-10 0,0 -20,0 
+                                                     C-40,0 -60,-10 -60,-30" 
+                                                  fill="${article.provider === 'aws' ? '#FF9900' : 
+                                                         article.provider === 'gcp' ? '#4285F4' : 
+                                                         '#0d3f66'}"
+                                                  opacity="0.2"/>
+                                            <circle cx="0" cy="-30" r="5" 
+                                                    fill="${article.provider === 'aws' ? '#FF9900' : 
+                                                           article.provider === 'gcp' ? '#4285F4' : 
+                                                           '#0d3f66'}"
+                                                    opacity="0.4"/>
+                                            <circle cx="40" cy="-30" r="5" 
+                                                    fill="${article.provider === 'aws' ? '#FF9900' : 
+                                                           article.provider === 'gcp' ? '#4285F4' : 
+                                                           '#0d3f66'}"
+                                                    opacity="0.4"/>
+                                            <circle cx="-40" cy="-30" r="5" 
+                                                    fill="${article.provider === 'aws' ? '#FF9900' : 
+                                                           article.provider === 'gcp' ? '#4285F4' : 
+                                                           '#0d3f66'}"
+                                                    opacity="0.4"/>
                                         </g>
                                         <text x="200" y="140" 
                                               font-family="'Source Sans Pro', sans-serif" 
@@ -440,6 +489,9 @@
                     month: 'long',
                     day: 'numeric'
                 });
+                
+                // Clean and limit the description
+                const cleanDescription = cleanAndLimitText(article.description);
                 
                 articleElement.innerHTML = `
                     <div class="article-card">
@@ -458,7 +510,7 @@
                                 <span class="mx-2">•</span>
                                 <span>${article.author || 'Anonymous'}</span>
                             </div>
-                            <p class="article-content">${article.description}</p>
+                            <p class="article-content">${cleanDescription}</p>
                             <a href="${article.link}" 
                                class="btn btn-outline-primary" 
                                target="_blank">
