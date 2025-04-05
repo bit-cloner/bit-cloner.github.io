@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Incidents Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --aws-color: #FF9900;
+            --gcp-color: #4285F4;
+            --azure-color: #0d3f66;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 2rem 0;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .provider-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .provider-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid;
+        }
+
+        .aws-header {
+            border-color: var(--aws-color);
+        }
+
+        .gcp-header {
+            border-color: var(--gcp-color);
+        }
+
+        .provider-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            margin-right: 1rem;
+        }
+
+        .aws-badge {
+            background: var(--aws-color);
+        }
+
+        .gcp-badge {
+            background: var(--gcp-color);
+        }
+
+        .incident-card {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .incident-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .incident-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .incident-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .incident-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .incident-region {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #e9ecef;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-right: 1rem;
+        }
+
+        .incident-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #dc3545;
+            color: white;
+        }
+
+        .status-resolved {
+            background: #28a745;
+            color: white;
+        }
+
+        .incident-description {
+            margin-top: 1rem;
+            color: #495057;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="page-title">Cloud Incidents Details</h1>
+        
+        <div id="aws-incidents" class="provider-section">
+            <div class="provider-header aws-header">
+                <span class="provider-badge aws-badge">AWS</span>
+                <h2 class="mb-0">Amazon Web Services Incidents</h2>
+            </div>
+            <div id="aws-incidents-list" class="loading-spinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="gcp-incidents" class="provider-section">
+            <div class="provider-header gcp-header">
+                <span class="provider-badge gcp-badge">GCP</span>
+                <h2 class="mb-0">Google Cloud Platform Incidents</h2>
+            </div>
+            <div id="gcp-incidents-list" class="loading-spinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="haps.html" class="btn btn-primary back-button">
+            Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Incident Feed Configuration
+        const INCIDENT_FEEDS = {
+            gcp: 'https://status.cloud.google.com/en/feed.atom',
+            aws: 'https://history-events-eu-west-1-prod.s3.amazonaws.com/historyevents.json'
+        };
+
+        // Function to format AWS incident data
+        function formatAWSIncident(incident, region) {
+            const date = new Date(incident.date * 1000).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            const lastEvent = incident.event_log[incident.event_log.length - 1];
+            const regionName = region.split('-').map(word => word.toUpperCase()).join('-');
+            
+            return {
+                title: lastEvent.summary,
+                link: '#',
+                pubDate: date,
+                provider: 'aws',
+                region: regionName,
+                status: lastEvent.status === '0' ? 'Resolved' : 'Active',
+                description: lastEvent.message
+            };
+        }
+
+        // Function to format GCP incident data
+        function formatGCPIncident(item) {
+            const date = new Date(item.pubDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const regionMatch = item.title.match(/in (.*?)(?:\.|$)/i);
+            const region = regionMatch ? regionMatch[1] : 'Global';
+            const status = item.title.toLowerCase().includes('resolved') ? 'Resolved' : 'Active';
+
+            return {
+                title: item.title,
+                link: item.link,
+                pubDate: date,
+                provider: 'gcp',
+                region: region,
+                status: status,
+                description: item.description
+            };
+        }
+
+        // Function to create incident card HTML
+        function createIncidentCard(incident) {
+            return `
+                <div class="incident-card">
+                    <div class="incident-header">
+                        <h3 class="incident-title">${incident.title}</h3>
+                        <span class="incident-date">${incident.pubDate}</span>
+                    </div>
+                    <div class="incident-meta">
+                        <span class="incident-region">${incident.region}</span>
+                        <span class="incident-status status-${incident.status.toLowerCase()}">${incident.status}</span>
+                    </div>
+                    <div class="incident-description">
+                        ${incident.description}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to fetch AWS incidents
+        async function fetchAWSIncidents() {
+            try {
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const response = await fetch(proxyUrl + encodeURIComponent(INCIDENT_FEEDS.aws));
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const awsIncidents = [];
+                
+                for (const region in data) {
+                    const incidents = data[region];
+                    incidents.forEach(incident => {
+                        awsIncidents.push(formatAWSIncident(incident, region));
+                    });
+                }
+                
+                // Sort by date
+                awsIncidents.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                
+                return awsIncidents;
+            } catch (error) {
+                console.error('Error fetching AWS incidents:', error);
+                return [];
+            }
+        }
+
+        // Function to fetch GCP incidents
+        async function fetchGCPIncidents() {
+            try {
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(INCIDENT_FEEDS.gcp)}`);
+                const data = await response.json();
+                
+                if (data.status === 'ok' && data.items) {
+                    return data.items.map(item => formatGCPIncident(item))
+                        .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                }
+                return [];
+            } catch (error) {
+                console.error('Error fetching GCP incidents:', error);
+                return [];
+            }
+        }
+
+        // Function to display incidents
+        async function displayIncidents() {
+            const awsList = document.getElementById('aws-incidents-list');
+            const gcpList = document.getElementById('gcp-incidents-list');
+            
+            try {
+                const [awsIncidents, gcpIncidents] = await Promise.all([
+                    fetchAWSIncidents(),
+                    fetchGCPIncidents()
+                ]);
+                
+                // Display AWS incidents
+                if (awsIncidents.length > 0) {
+                    awsList.innerHTML = awsIncidents.map(incident => createIncidentCard(incident)).join('');
+                } else {
+                    awsList.innerHTML = '<p class="text-center">No AWS incidents to display</p>';
+                }
+                
+                // Display GCP incidents
+                if (gcpIncidents.length > 0) {
+                    gcpList.innerHTML = gcpIncidents.map(incident => createIncidentCard(incident)).join('');
+                } else {
+                    gcpList.innerHTML = '<p class="text-center">No GCP incidents to display</p>';
+                }
+            } catch (error) {
+                console.error('Error displaying incidents:', error);
+                awsList.innerHTML = '<p class="text-center text-danger">Error loading AWS incidents</p>';
+                gcpList.innerHTML = '<p class="text-center text-danger">Error loading GCP incidents</p>';
+            }
+        }
+
+        // Load incidents when the page loads
+        document.addEventListener('DOMContentLoaded', displayIncidents);
+    </script>
+</body>
+</html> 
