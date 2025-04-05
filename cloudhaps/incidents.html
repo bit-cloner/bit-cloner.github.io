@@ -99,6 +99,42 @@
             background: white;
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 80vh; /* Set a fixed height */
+            overflow-y: auto; /* Make it scrollable */
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: #c1c1c1 #f1f1f1; /* For Firefox */
+        }
+
+        /* For Chrome, Safari, and Opera */
+        .provider-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .provider-section::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .provider-section::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .provider-section::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        .incidents-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .incidents-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         .provider-header {
@@ -217,26 +253,28 @@
     <div class="container py-5">
         <h1 class="page-title">Cloud Incidents Details</h1>
         
-        <div id="aws-incidents" class="provider-section">
-            <div class="provider-header aws-header">
-                <span class="provider-badge aws-badge">AWS</span>
-                <h2 class="mb-0">Amazon Web Services Incidents</h2>
-            </div>
-            <div id="aws-incidents-list" class="loading-spinner">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
+        <div class="incidents-container">
+            <div id="aws-incidents" class="provider-section">
+                <div class="provider-header aws-header">
+                    <span class="provider-badge aws-badge">AWS</span>
+                    <h2 class="mb-0">Amazon Web Services Incidents</h2>
+                </div>
+                <div id="aws-incidents-list" class="loading-spinner">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="gcp-incidents" class="provider-section">
-            <div class="provider-header gcp-header">
-                <span class="provider-badge gcp-badge">GCP</span>
-                <h2 class="mb-0">Google Cloud Platform Incidents</h2>
-            </div>
-            <div id="gcp-incidents-list" class="loading-spinner">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
+            <div id="gcp-incidents" class="provider-section">
+                <div class="provider-header gcp-header">
+                    <span class="provider-badge gcp-badge">GCP</span>
+                    <h2 class="mb-0">Google Cloud Platform Incidents</h2>
+                </div>
+                <div id="gcp-incidents-list" class="loading-spinner">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
             </div>
         </div>
