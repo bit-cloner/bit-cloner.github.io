@@ -306,8 +306,12 @@
 
         // Function to create incident card HTML
         function createIncidentCard(incident) {
+            // Create a unique ID for each incident based on provider, region, and title
+            // Replace all non-alphanumeric characters with hyphens and convert to lowercase
+            const incidentId = `incident-${incident.provider}-${incident.region.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}-${incident.title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`;
+            
             return `
-                <div class="incident-card">
+                <div class="incident-card" id="${incidentId}">
                     <div class="incident-header">
                         <h3 class="incident-title">${incident.title}</h3>
                         <span class="incident-date">${incident.pubDate}</span>
@@ -394,12 +398,36 @@
                 } else {
                     gcpList.innerHTML = '<p class="text-center">No GCP incidents to display</p>';
                 }
+
+                // Check for hash in URL and scroll to the incident if present
+                if (window.location.hash) {
+                    const targetIncident = document.querySelector(window.location.hash);
+                    if (targetIncident) {
+                        // Add a small delay to ensure the page has rendered
+                        setTimeout(() => {
+                            targetIncident.scrollIntoView({ behavior: 'smooth' });
+                            // Add highlight effect
+                            targetIncident.style.animation = 'highlight 2s ease-in-out';
+                        }, 500);
+                    }
+                }
             } catch (error) {
                 console.error('Error displaying incidents:', error);
                 awsList.innerHTML = '<p class="text-center text-danger">Error loading AWS incidents</p>';
                 gcpList.innerHTML = '<p class="text-center text-danger">Error loading GCP incidents</p>';
             }
         }
+
+        // Add highlight animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes highlight {
+                0% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.4); }
+                50% { box-shadow: 0 0 0 10px rgba(66, 133, 244, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0); }
+            }
+        `;
+        document.head.appendChild(style);
 
         // Load incidents when the page loads
         document.addEventListener('DOMContentLoaded', displayIncidents);

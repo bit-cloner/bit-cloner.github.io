@@ -589,8 +589,10 @@
                 const items = allIncidents.map(incident => {
                     const span = document.createElement('span');
                     span.className = 'ticker-item';
+                    // Create the same ID as in incidents.html
+                    const incidentId = `incident-${incident.provider}-${incident.region.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}-${incident.title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`;
                     span.innerHTML = `
-                        <a href="${incident.link}" target="_blank" class="${incident.provider}-incident">
+                        <a href="incidents.html#${incidentId}" class="${incident.provider}-incident">
                             <span class="incident-badge ${incident.provider}-badge">${incident.provider.toUpperCase()}</span>
                             <span class="incident-region">${incident.region}</span>
                             <span class="incident-status status-${incident.status.toLowerCase()}">${incident.status}</span>
