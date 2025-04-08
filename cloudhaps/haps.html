@@ -77,6 +77,7 @@
             --aws-color: #FF9900;
             --gcp-color: #4285F4;
             --azure-color: #0d3f66;
+            --other-color: #4b555d;
         }
 
         /* Ticker Styles */
@@ -273,7 +274,7 @@
         }
 
         .tag-button.active {
-            color: white;
+            color: rgb(248, 242, 242);
         }
 
         .tag-button[data-provider="aws"].active {
@@ -304,6 +305,21 @@
             background: var(--azure-color);
         }
 
+        .tag-button[data-provider="other"] {
+            border-color: var(--other-color);
+            color: var(--other-color);
+        }
+
+        .tag-button[data-provider="other"].active {
+            background: var(--other-color);
+            color: white;
+        }
+
+        .tag-button[data-provider="other"]:hover {
+            background: var(--other-color);
+            color: white;
+        }
+
         .provider-badge {
             position: absolute;
             top: 1rem;
@@ -312,7 +328,7 @@
             border-radius: 15px;
             font-size: 0.8rem;
             font-weight: 600;
-            color: white;
+            color: white !important;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -327,6 +343,10 @@
 
         .azure-badge {
             background: var(--azure-color);
+        }
+
+        .other-badge {
+            background: var(--other-color);
         }
 
         .btn-outline-primary {
@@ -360,15 +380,6 @@
             font-weight: 600;
             margin-right: 8px;
             text-transform: uppercase;
-        }
-
-        .gcp-badge {
-            background-color: var(--gcp-color);
-            color: white;
-        }
-
-        .aws-badge {
-            background-color: var(--aws-color);
             color: white;
         }
 
@@ -416,6 +427,7 @@
                 <button class="tag-button active" data-provider="aws">AWS</button>
                 <button class="tag-button active" data-provider="gcp">Google Cloud</button>
                 <button class="tag-button active" data-provider="azure">Azure</button>
+                <button class="tag-button active" data-provider="other">Other</button>
             </div>
         </div>
 
@@ -615,14 +627,61 @@
         const FEEDS = {
             aws: 'https://aws.amazon.com/blogs/aws/feed/',
             gcp: 'https://cloudblog.withgoogle.com/rss/',
-            azure: 'https://azure.microsoft.com/en-us/blog/feed/'
+            azure: 'https://azure.microsoft.com/en-us/blog/feed/',
+            other: 'ghincident.html'  // Changed from github to other
         };
 
         let allArticles = [];
-        let activeProviders = new Set(['aws', 'gcp', 'azure']);
+        let activeProviders = new Set(['aws', 'gcp', 'azure', 'other']);  // Changed from github to other
 
         // Function to fetch articles from a single feed
         async function fetchFeed(feedUrl, provider) {
+            if (provider === 'other') {  // Changed from github to other
+                // Return the GitHub incident article with a future date to ensure it's always on top
+                return [{
+                    title: 'GitHub Action Supply Chain Attack: A Detailed Timeline',
+                    link: 'ghincident.html',
+                    pubDate: new Date('2099-12-31').toISOString(), // Future date to ensure it's always on top
+                    provider: 'other',  // Changed from github to other
+                    author: 'Sudheer Kamepalli',
+                    description: 'A detailed timeline of the GitHub Action supply chain attack, including the compromise of the tj-actions/changed-files GitHub Action, the injection of malicious code, and the subsequent remediation efforts.',
+                    thumbnail: 'data:image/svg+xml;base64,' + btoa(`
+                        <svg width="400" height="250" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="otherGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#6c757d;stop-opacity:0.1"/>
+                                    <stop offset="100%" style="stop-color:#6c757d;stop-opacity:0.3"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="400" height="250" fill="url(#otherGradient)"/>
+                            <g transform="translate(200, 125)">
+                                <path d="M-60,-30 
+                                         C-60,-50 -40,-60 -20,-60 
+                                         C0,-60 20,-50 20,-30 
+                                         C20,-10 40,0 60,0 
+                                         C80,0 100,-10 100,-30 
+                                         C100,-50 80,-60 60,-60 
+                                         C40,-60 20,-50 20,-30 
+                                         C20,-10 0,0 -20,0 
+                                         C-40,0 -60,-10 -60,-30" 
+                                      fill="#6c757d"
+                                      opacity="0.2"/>
+                                <circle cx="0" cy="-30" r="5" fill="#6c757d" opacity="0.4"/>
+                                <circle cx="40" cy="-30" r="5" fill="#6c757d" opacity="0.4"/>
+                                <circle cx="-40" cy="-30" r="5" fill="#6c757d" opacity="0.4"/>
+                            </g>
+                            <text x="200" y="140" 
+                                  font-family="'Source Sans Pro', sans-serif" 
+                                  font-size="16" 
+                                  fill="#6c757d" 
+                                  text-anchor="middle">
+                                Other Security Incident
+                            </text>
+                        </svg>
+                    `)
+                }];
+            }
+            
             const RSS2JSON_API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
             const response = await fetch(RSS2JSON_API_URL);
             const data = await response.json();
@@ -647,13 +706,14 @@
             articlesContainer.innerHTML = '';
             
             try {
-                const [awsArticles, gcpArticles, azureArticles] = await Promise.all([
+                const [awsArticles, gcpArticles, azureArticles, otherArticles] = await Promise.all([
                     fetchFeed(FEEDS.aws, 'aws'),
                     fetchFeed(FEEDS.gcp, 'gcp'),
-                    fetchFeed(FEEDS.azure, 'azure')
+                    fetchFeed(FEEDS.azure, 'azure'),
+                    fetchFeed(FEEDS.other, 'other')
                 ]);
                 
-                allArticles = [...awsArticles, ...gcpArticles, ...azureArticles]
+                allArticles = [...awsArticles, ...gcpArticles, ...azureArticles, ...otherArticles]
                     .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
                 
                 displayArticles();
@@ -775,7 +835,7 @@
                                  alt="${article.title}" 
                                  class="article-image">
                             <span class="provider-badge ${article.provider}-badge">
-                                ${article.provider.toUpperCase()}
+                                ${article.provider === 'other' ? 'Other' : article.provider.toUpperCase()}
                             </span>
                         </div>
                         <div class="p-4">
