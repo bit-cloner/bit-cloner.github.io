@@ -93,73 +93,73 @@
             color: #2c3e50;
         }
 
-        .provider-section {
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            height: 80vh; /* Set a fixed height */
-            overflow-y: auto; /* Make it scrollable */
-            scrollbar-width: thin; /* For Firefox */
-            scrollbar-color: #c1c1c1 #f1f1f1; /* For Firefox */
+        .incidents-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+            max-height: 80vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #c1c1c1 #f1f1f1;
         }
 
-        /* For Chrome, Safari, and Opera */
-        .provider-section::-webkit-scrollbar {
+        .incidents-container::-webkit-scrollbar {
             width: 8px;
         }
 
-        .provider-section::-webkit-scrollbar-track {
+        .incidents-container::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 4px;
         }
 
-        .provider-section::-webkit-scrollbar-thumb {
+        .incidents-container::-webkit-scrollbar-thumb {
             background: #c1c1c1;
             border-radius: 4px;
         }
 
-        .provider-section::-webkit-scrollbar-thumb:hover {
+        .incidents-container::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
 
-        .incidents-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
+        .incident-tile {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+            position: relative;
+            overflow: hidden;
         }
 
-        @media (max-width: 768px) {
-            .incidents-container {
-                grid-template-columns: 1fr;
-            }
+        .incident-tile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .provider-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid;
+        .incident-tile.aws {
+            border-left-color: var(--aws-color);
         }
 
-        .aws-header {
-            border-color: var(--aws-color);
+        .incident-tile.gcp {
+            border-left-color: var(--gcp-color);
         }
 
-        .gcp-header {
-            border-color: var(--gcp-color);
+        .incident-tile.expanded {
+            grid-column: 1 / -1;
+            z-index: 10;
         }
 
         .provider-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 1.2rem;
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
             font-weight: 600;
             color: white;
-            margin-right: 1rem;
+            margin-bottom: 1rem;
         }
 
         .aws-badge {
@@ -170,72 +170,62 @@
             background: var(--gcp-color);
         }
 
-        .incident-card {
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
-            border-radius: 10px;
-            background: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .incident-card:hover {
-            transform: translateY(-2px);
-        }
-
-        .incident-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .incident-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .incident-date {
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-
-        .incident-region {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: #e9ecef;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            margin-right: 1rem;
-        }
-
         .incident-status {
-            display: inline-block;
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
             padding: 0.25rem 0.75rem;
             border-radius: 15px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
+            color: white;
         }
 
         .status-active {
             background: #dc3545;
-            color: white;
         }
 
         .status-resolved {
             background: #28a745;
-            color: white;
         }
 
-        .incident-description {
-            margin-top: 1rem;
+        .incident-region {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .incident-service {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .incident-summary {
             color: #495057;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .loading-spinner {
-            text-align: center;
-            padding: 2rem;
+        .incident-details {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .incident-tile.expanded .incident-details {
+            display: block;
+        }
+
+        .incident-date {
+            color: #6c757d;
+            font-size: 0.85rem;
+            margin-top: 1rem;
         }
 
         .back-button {
@@ -247,34 +237,22 @@
             font-weight: 600;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
+        @media (max-width: 768px) {
+            .incidents-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container py-5">
         <h1 class="page-title">Cloud Incidents Details</h1>
         
-        <div class="incidents-container">
-            <div id="aws-incidents" class="provider-section">
-                <div class="provider-header aws-header">
-                    <span class="provider-badge aws-badge">AWS</span>
-                    <h2 class="mb-0">Amazon Web Services Incidents</h2>
-                </div>
-                <div id="aws-incidents-list" class="loading-spinner">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="gcp-incidents" class="provider-section">
-                <div class="provider-header gcp-header">
-                    <span class="provider-badge gcp-badge">GCP</span>
-                    <h2 class="mb-0">Google Cloud Platform Incidents</h2>
-                </div>
-                <div id="gcp-incidents-list" class="loading-spinner">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+        <div class="incidents-container" id="incidents-container">
+            <div class="loading-spinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
         </div>
@@ -306,14 +284,22 @@
             const lastEvent = incident.event_log[incident.event_log.length - 1];
             const regionName = region.split('-').map(word => word.toUpperCase()).join('-');
             
+            // Extract service name from the summary
+            const serviceMatch = lastEvent.summary.match(/\[(.*?)\]/);
+            const service = serviceMatch ? serviceMatch[1] : 'Unknown Service';
+            
+            // Determine status based on the last event
+            const status = lastEvent.status === '0' ? 'Resolved' : 'Active';
+            
             return {
                 title: lastEvent.summary,
                 link: '#',
                 pubDate: date,
                 provider: 'aws',
                 region: regionName,
-                status: lastEvent.status === '0' ? 'Resolved' : 'Active',
-                description: lastEvent.message
+                service: service,
+                status: status,
+                description: lastEvent.message || lastEvent.summary
             };
         }
 
@@ -331,34 +317,35 @@
             const region = regionMatch ? regionMatch[1] : 'Global';
             const status = item.title.toLowerCase().includes('resolved') ? 'Resolved' : 'Active';
 
+            // Extract service name from the title
+            const serviceMatch = item.title.match(/^(.*?)\s+in/i);
+            const service = serviceMatch ? serviceMatch[1] : 'Unknown Service';
+
             return {
                 title: item.title,
                 link: item.link,
                 pubDate: date,
                 provider: 'gcp',
                 region: region,
+                service: service,
                 status: status,
                 description: item.description
             };
         }
 
-        // Function to create incident card HTML
-        function createIncidentCard(incident) {
-            // Create a unique ID for each incident based on provider, region, and title
-            // Replace all non-alphanumeric characters with hyphens and convert to lowercase
+        // Function to create incident tile HTML
+        function createIncidentTile(incident) {
             const incidentId = `incident-${incident.provider}-${incident.region.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}-${incident.title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`;
             
             return `
-                <div class="incident-card" id="${incidentId}">
-                    <div class="incident-header">
-                        <h3 class="incident-title">${incident.title}</h3>
-                        <span class="incident-date">${incident.pubDate}</span>
-                    </div>
-                    <div class="incident-meta">
-                        <span class="incident-region">${incident.region}</span>
-                        <span class="incident-status status-${incident.status.toLowerCase()}">${incident.status}</span>
-                    </div>
-                    <div class="incident-description">
+                <div class="incident-tile ${incident.provider}" id="${incidentId}">
+                    <span class="provider-badge ${incident.provider}-badge">${incident.provider.toUpperCase()}</span>
+                    <span class="incident-status status-${incident.status.toLowerCase()}">${incident.status}</span>
+                    <div class="incident-region">${incident.region}</div>
+                    <div class="incident-service">${incident.service}</div>
+                    <div class="incident-summary">${incident.title}</div>
+                    <div class="incident-date">${incident.pubDate}</div>
+                    <div class="incident-details">
                         ${incident.description}
                     </div>
                 </div>
@@ -378,15 +365,25 @@
                 const data = await response.json();
                 const awsIncidents = [];
                 
+                // Log the data to check its structure
+                console.log('AWS Data:', data);
+                
                 for (const region in data) {
                     const incidents = data[region];
-                    incidents.forEach(incident => {
-                        awsIncidents.push(formatAWSIncident(incident, region));
-                    });
+                    if (Array.isArray(incidents)) {
+                        incidents.forEach(incident => {
+                            if (incident && incident.event_log && incident.event_log.length > 0) {
+                                awsIncidents.push(formatAWSIncident(incident, region));
+                            }
+                        });
+                    }
                 }
                 
                 // Sort by date
                 awsIncidents.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                
+                // Log the processed incidents
+                console.log('Processed AWS Incidents:', awsIncidents);
                 
                 return awsIncidents;
             } catch (error) {
@@ -412,10 +409,9 @@
             }
         }
 
-        // Function to display incidents
+        // Function to fetch and display incidents
         async function displayIncidents() {
-            const awsList = document.getElementById('aws-incidents-list');
-            const gcpList = document.getElementById('gcp-incidents-list');
+            const container = document.getElementById('incidents-container');
             
             try {
                 const [awsIncidents, gcpIncidents] = await Promise.all([
@@ -423,49 +419,53 @@
                     fetchGCPIncidents()
                 ]);
                 
-                // Display AWS incidents
-                if (awsIncidents.length > 0) {
-                    awsList.innerHTML = awsIncidents.map(incident => createIncidentCard(incident)).join('');
-                } else {
-                    awsList.innerHTML = '<p class="text-center">No AWS incidents to display</p>';
-                }
+                // Log the fetched incidents
+                console.log('AWS Incidents:', awsIncidents);
+                console.log('GCP Incidents:', gcpIncidents);
                 
-                // Display GCP incidents
-                if (gcpIncidents.length > 0) {
-                    gcpList.innerHTML = gcpIncidents.map(incident => createIncidentCard(incident)).join('');
-                } else {
-                    gcpList.innerHTML = '<p class="text-center">No GCP incidents to display</p>';
-                }
+                const allIncidents = [...awsIncidents, ...gcpIncidents]
+                    .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                
+                // Log the combined incidents
+                console.log('All Incidents:', allIncidents);
+                
+                container.innerHTML = allIncidents.map(incident => createIncidentTile(incident)).join('');
+                
+                // Add click handlers for expanding/collapsing tiles
+                document.querySelectorAll('.incident-tile').forEach(tile => {
+                    tile.addEventListener('click', () => {
+                        // Collapse all other expanded tiles
+                        document.querySelectorAll('.incident-tile.expanded').forEach(expandedTile => {
+                            if (expandedTile !== tile) {
+                                expandedTile.classList.remove('expanded');
+                            }
+                        });
+                        
+                        // Toggle the clicked tile
+                        tile.classList.toggle('expanded');
+                        
+                        // Scroll to the expanded tile
+                        if (tile.classList.contains('expanded')) {
+                            tile.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                });
 
-                // Check for hash in URL and scroll to the incident if present
+                // Check for hash in URL and expand the corresponding incident
                 if (window.location.hash) {
                     const targetIncident = document.querySelector(window.location.hash);
                     if (targetIncident) {
-                        // Add a small delay to ensure the page has rendered
+                        targetIncident.classList.add('expanded');
                         setTimeout(() => {
-                            targetIncident.scrollIntoView({ behavior: 'smooth' });
-                            // Add highlight effect
-                            targetIncident.style.animation = 'highlight 2s ease-in-out';
+                            targetIncident.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }, 500);
                     }
                 }
             } catch (error) {
                 console.error('Error displaying incidents:', error);
-                awsList.innerHTML = '<p class="text-center text-danger">Error loading AWS incidents</p>';
-                gcpList.innerHTML = '<p class="text-center text-danger">Error loading GCP incidents</p>';
+                container.innerHTML = '<p class="text-center text-danger">Error loading incidents</p>';
             }
         }
-
-        // Add highlight animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes highlight {
-                0% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.4); }
-                50% { box-shadow: 0 0 0 10px rgba(66, 133, 244, 0); }
-                100% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0); }
-            }
-        `;
-        document.head.appendChild(style);
 
         // Load incidents when the page loads
         document.addEventListener('DOMContentLoaded', displayIncidents);
