@@ -78,6 +78,7 @@
             --gcp-color: #4285F4;
             --azure-color: #0d3f66;
             --other-color: #4b555d;
+            --kubernetes-color: #326CE5;
         }
 
         /* Ticker Styles */
@@ -320,6 +321,21 @@
             color: white;
         }
 
+        .tag-button[data-provider="kubernetes"] {
+            border-color: var(--kubernetes-color);
+            color: var(--kubernetes-color);
+        }
+
+        .tag-button[data-provider="kubernetes"].active {
+            background: var(--kubernetes-color);
+            color: white;
+        }
+
+        .tag-button[data-provider="kubernetes"]:hover {
+            background: var(--kubernetes-color);
+            color: white;
+        }
+
         .provider-badge {
             position: absolute;
             top: 1rem;
@@ -347,6 +363,10 @@
 
         .other-badge {
             background: var(--other-color);
+        }
+
+        .kubernetes-badge {
+            background: var(--kubernetes-color);
         }
 
         .btn-outline-primary {
@@ -427,6 +447,7 @@
                 <button class="tag-button active" data-provider="aws">AWS</button>
                 <button class="tag-button active" data-provider="gcp">Google Cloud</button>
                 <button class="tag-button active" data-provider="azure">Azure</button>
+                <button class="tag-button active" data-provider="kubernetes">Kubernetes</button>
                 <button class="tag-button active" data-provider="other">Other</button>
             </div>
         </div>
@@ -628,11 +649,12 @@
             aws: 'https://aws.amazon.com/blogs/aws/feed/',
             gcp: 'https://cloudblog.withgoogle.com/rss/',
             azure: 'https://azure.microsoft.com/en-us/blog/feed/',
-            other: 'ghincident.html'  // Changed from github to other
+            kubernetes: 'https://kubernetes.io/feed.xml',
+            other: 'ghincident.html'
         };
 
         let allArticles = [];
-        let activeProviders = new Set(['aws', 'gcp', 'azure', 'other']);  // Changed from github to other
+        let activeProviders = new Set(['aws', 'gcp', 'azure', 'kubernetes', 'other']);
 
         // Function to fetch articles from a single feed
         async function fetchFeed(feedUrl, provider) {
@@ -706,14 +728,15 @@
             articlesContainer.innerHTML = '';
             
             try {
-                const [awsArticles, gcpArticles, azureArticles, otherArticles] = await Promise.all([
+                const [awsArticles, gcpArticles, azureArticles, kubernetesArticles, otherArticles] = await Promise.all([
                     fetchFeed(FEEDS.aws, 'aws'),
                     fetchFeed(FEEDS.gcp, 'gcp'),
                     fetchFeed(FEEDS.azure, 'azure'),
+                    fetchFeed(FEEDS.kubernetes, 'kubernetes'),
                     fetchFeed(FEEDS.other, 'other')
                 ]);
                 
-                allArticles = [...awsArticles, ...gcpArticles, ...azureArticles, ...otherArticles]
+                allArticles = [...awsArticles, ...gcpArticles, ...azureArticles, ...kubernetesArticles, ...otherArticles]
                     .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
                 
                 displayArticles();

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GitHub Action Supply Chain Attack Timeline</title>
+  <!-- Feed Metadata -->
+  <meta name="description" content="A detailed timeline of the GitHub Action supply chain attack, including the compromise of the tj-actions/changed-files GitHub Action, the injection of malicious code, and the subsequent remediation efforts.">
+  <meta name="author" content="Sudheer Kamepalli">
+  <meta name="date" content="2025-05-12">
+  <meta property="og:image" content="https://raw.githubusercontent.com/bit-cloner/bit-cloner.github.io/main/cloudhaps/other/images/ghincident.png">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <!-- Custom Styles -->
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar-brand {
+      font-weight: 700;
+    }
+    h1 {
+      margin-top: 2rem;
+      margin-bottom: 3rem;
+      color: #0d6efd;
+    }
+    .timeline {
+      position: relative;
+      padding: 2rem 0;
+      margin: 0 auto;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #0d6efd;
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      position: relative;
+      margin: 2rem 0;
+      width: 50%;
+      padding: 1.5rem 2rem;
+      background: #fff;
+      border-radius: 0.5rem;
+      box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+    }
+    .timeline-item.left {
+      left: 0;
+      transform: translateX(-10%);
+    }
+    .timeline-item.right {
+      left: 50%;
+      transform: translateX(10%);
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      border: 4px solid #0d6efd;
+      top: 1rem;
+    }
+    .timeline-item.left::before {
+      right: -10px;
+    }
+    .timeline-item.right::before {
+      left: -10px;
+    }
+    /* New: Display the date as a highlighted marker on the blue timeline */
+    .timeline-item::after {
+      content: attr(data-date);
+      position: absolute;
+      background: #0d6efd;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      top: -20px;
+      left: 50%;
+      transform: translate(-50%, -100%);
+      white-space: nowrap;
+    }
+    .timeline h4 {
+      margin-bottom: 0.75rem;
+      color: #0d6efd;
+    }
+    p {
+      margin-bottom: 0;
+    }
+    @media (max-width: 768px) {
+      .timeline::before {
+        left: 20px;
+      }
+      .timeline-item {
+        width: calc(100% - 40px);
+        margin-left: 40px;
+        padding-left: 20px;
+      }
+      .timeline-item.left,
+      .timeline-item.right {
+        left: 0;
+        transform: none;
+      }
+      .timeline-item::before {
+        left: -30px;
+      }
+      .timeline-item::after {
+        left: 20px;
+        transform: translate(0%, -100%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="#">Supply Chain Attack Timeline</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container my-5">
+    <h1 class="text-center">GitHub Action Supply Chain Attack: A Detailed Timeline</h1>
+    <div class="timeline">
+      <!-- Panel 1: Popular GitHub Action -->
+      <div class="timeline-item left" data-date="March 1, 2025">
+        <h4>Popular GitHub Action</h4>
+        <p>
+          The widely-used <code>tj-actions/changed-files</code> GitHub Action has been integrated into over <strong>23,000+</strong> repositories. This GitHub Action detects modified files in workflows (e.g., PRs, pushes) to optimize CI/CD jobs—running tasks only when relevant files change.
+        </p>
+      </div>
+
+      <!-- Panel 2: Bot Token Compromised -->
+      <div class="timeline-item right" data-date="March 5, 2025">
+        <h4>Bot Token Compromised</h4>
+        <p>
+          A shadowy attacker exploited a phishing scheme and a vulnerable third-party tool to obtain a GitHub bot's Personal Access Token (PAT). This breach underscores the dangers of leaked automated credentials.
+        </p>
+      </div>
+
+      <!-- Panel 3: Malicious Commit Injected -->
+      <div class="timeline-item left" data-date="March 7, 2025">
+        <h4>Malicious Commit Injected</h4>
+        <p>
+          With the stolen token, the attacker pushed a commit into the repository. The injected code—visible in the diff snippet with suspicious lines like <code>echo ${{ secrets }}</code>—was designed to surreptitiously capture confidential data.
+        </p>
+      </div>
+
+      <!-- Panel 4: Version Tags Hijacked -->
+      <div class="timeline-item right" data-date="March 8, 2025">
+        <h4>Version Tags Hijacked</h4>
+        <p>
+          Legitimate version tags such as <code>v35</code> and <code>v44.5.1</code> were retroactively updated to point to the compromised commit, deceiving developers into downloading malicious updates.
+        </p>
+      </div>
+
+      <!-- Panel 5: Secrets Leaked to Logs -->
+      <div class="timeline-item left" data-date="March 9, 2025">
+        <h4>Secrets Leaked to Logs</h4>
+        <p>
+          The tampered action captured sensitive environment variables, base64-encoded the secrets, and printed them in public CI logs. Even with obfuscation, the exposure of confidential data sent shockwaves through the community.
+        </p>
+      </div>
+
+      <!-- Panel 6: Breach Detected -->
+      <div class="timeline-item right" data-date="March 10, 2025">
+        <h4>Breach Detected</h4>
+        <p>
+          Alerted by unusual log entries filled with encoded data, security researchers promptly raised the alarm, triggering an in-depth investigation into the breach.
+        </p>
+      </div>
+
+      <!-- Panel 7: GitHub Responds -->
+      <div class="timeline-item left" data-date="March 11, 2025">
+        <h4>GitHub Responds</h4>
+        <p>
+          In swift countermeasures, GitHub removed the compromised versions, restored the clean commit history, and secured its platform. The incident was officially tagged with <strong>CVE-2025-30066</strong>.
+        </p>
+      </div>
+
+      <!-- Panel 8: Remediation & Lessons Learned -->
+      <div class="timeline-item right" data-date="March 12, 2025">
+        <h4>Remediation & Lessons Learned</h4>
+        <p>
+          In response to the attack, developers rotated secrets, adopted SHA-based version pinning, and rigorously reviewed third-party actions. A new checklist of secure DevOps practices has become essential.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-light text-center py-3">
+    <p class="mb-0">© 2025 Sudheer's Security Insights. All are are personal opinions.</p>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
