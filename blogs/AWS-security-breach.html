@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,7 +63,6 @@
       font-size: 13px;
       font-weight: 500;
       transition: fill 0.3s ease;
-      pointer-events: none; /* Prevent text from interfering with click events */
     }
     .node:hover text {
       fill: #0f172a;
@@ -85,40 +85,11 @@
       fill: #fff7ed;
       stroke: #f97316;
     }
-    /* Plus/minus symbol styling */
-    .node-symbol {
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      text-anchor: middle;
-      dominant-baseline: central;
-      pointer-events: none;
-      fill: #64748b;
-      transition: fill 0.3s ease, transform 0.2s ease;
-    }
-    
-    .node:hover .node-symbol {
-      fill: #0ea5e9;
-      transform: scale(1.2);
-    }
-    
-    /* Text background to prevent overlap */
-    .text-background {
-      fill: white;
-      fill-opacity: 0.8;
-      rx: 3;
-      ry: 3;
-    }
-    /* Multiline text styling */
-    .node-text-line {
-      text-anchor: inherit;
-      dominant-baseline: text-before-edge;
-    }
   </style>
 </head>
 <body>
 <div id="tree-container">
-  <div class="title">AWS Security Breach Incident Response Phases</div>
+  <div class="title">AWS Security Breach Phases</div>
 </div>
 
 <!-- Load D3 v7 from CDN -->
@@ -134,37 +105,23 @@ const treeData = {
   "name": "Security Breach phases",
   "children": [
     {
-      "name": "Detecting a Security Breach",
+      "name": "Detecting a Security Breach in AWS",
       "children": [
         {
           "name": "Common Signs",
           "children": [
             { "name": "Unexpected billing increases" },
-            { "name": "New Regions used to avoid detection" },
-            { 
-              "name": "Unusual API access",
-              "children": [
-                { "name": "APIs accessed from suspicious IP addresses" }
-              ]
-            },
+            { "name": "Unusual API or access logs" },
             { "name": "Unauthorized IAM activity" },
-            { 
-              "name": "Network traffic anomalies",
-              "children": [
-                { "name": "Network traffic to and from suspicious destinations IP addresses" },
-                { "name": "Heavy outbound network data which indicates data exfiltration" }
-              ]
-            }
+            { "name": "Network traffic anomalies" }
           ]
         },
         {
           "name": "AWS Tools",
           "children": [
-            { "name": " CloudTrail" },
-            { "name": " GuardDuty" },
-            { "name": " CloudWatch" },
-            { "name": " VPC flow logs" },
-            { "name": " DNS logs" }
+            { "name": "AWS CloudTrail" },
+            { "name": "AWS GuardDuty" },
+            { "name": "Amazon Athena" }
           ]
         }
       ]
@@ -238,14 +195,7 @@ const treeData = {
             { "name": "Monitor logs (CloudWatch, Hub)" },
             { "name": "Restrict unused regions" },
             { "name": "Use AWS WAF" },
-            { "name": "Well-Architected Reviews" },
-            
-            { "name": "Reduce Alert Fatigue", 
-            "children": [
-              { "name": "Prioritize/Triage Security Alerts" }
-              
-            ]
-            }
+            { "name": "Well-Architected Reviews" }
           ]
         }
       ]
@@ -256,40 +206,26 @@ const treeData = {
 // -----------------------------------------------------
 // 2) Setup SVG & layout constants
 // -----------------------------------------------------
-// Calculate the initial dimensions
-const containerWidth = document.getElementById('tree-container').clientWidth;
-const containerHeight = document.getElementById('tree-container').clientHeight;
+const margin = { top: 20, right: 90, bottom: 30, left: 200 },
+      width  = 1200 - margin.left - margin.right,
+      height = 800 - margin.top  - margin.bottom;
 
-// Set margins with more space on left and right, especially on the right
-const margin = { top: 20, right: 300, bottom: 30, left: 180 },
-      width = Math.max(2000, containerWidth) - margin.left - margin.right,
-      height = 800 - margin.top - margin.bottom;
+// Create a D3 tree layout
+const treemap = d3.tree().size([height, width]);
 
-// Create a D3 tree layout with increased node spacing
-const treemap = d3.tree()
-    .size([height, width])
-    .separation((a, b) => (a.parent === b.parent ? 1.5 : 2.5));
-
-// Create an SVG element with a larger width to accommodate all nodes
+// Append the svg object
 const svg = d3.select("#tree-container").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-    .append("g")
+  .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
-
-// Create a container for the tree to enable panning
-const treeGroup = svg.append("g")
-    .attr("class", "tree-group");
 
 // Convert data to a hierarchy
 let root = d3.hierarchy(treeData, d => d.children);
 root.x0 = height / 2;
 root.y0 = 0;
 
-// Store the last clicked node for viewport focusing
-let lastClickedNode = null;
-
-// Collapse after the second level by default
+// Collapse after the second level by default (optional)
 root.children && root.children.forEach(collapseAll);
 
 // Draw the initial tree
@@ -310,9 +246,6 @@ function collapseAll(d) {
 
 // Toggle children on click
 function click(event, d) {
-  // Store the clicked node for viewport focusing
-  lastClickedNode = d;
-  
   if (d.children) {
     d._children = d.children;
     d.children = null;
@@ -321,62 +254,6 @@ function click(event, d) {
     d._children = null;
   }
   update(d);
-}
-
-// Calculate text width for a given string
-function getTextWidth(text, fontSize = 13, fontFace = "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif") {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  context.font = `${fontSize}px ${fontFace}`;
-  return context.measureText(text).width;
-}
-
-// Function to wrap text into multiple lines
-function wrapText(text, width) {
-  const words = text.split(/\s+/).reverse();
-  const lineHeight = 1.1; // ems
-  const lines = [];
-  let line = [];
-  let word;
-  
-  while (word = words.pop()) {
-    line.push(word);
-    const testLine = line.join(" ");
-    if (getTextWidth(testLine) > width) {
-      // If the line is too long, remove the last word and create a new line
-      line.pop();
-      lines.push(line.join(" "));
-      line = [word];
-    }
-  }
-  
-  // Add the last line
-  if (line.length > 0) {
-    lines.push(line.join(" "));
-  }
-  
-  return lines;
-}
-
-// Focus viewport on a specific node
-function focusViewportOn(node) {
-  if (!node) return;
-  
-  // Get the container element
-  const container = document.getElementById('tree-container');
-  
-  // Calculate the position to scroll to
-  const nodeX = node.y;
-  const nodeY = node.x;
-  
-  // Calculate the scroll position to center the node
-  const scrollLeft = nodeX + margin.left - (container.clientWidth / 2);
-  
-  // Smooth scroll to the position
-  container.scrollTo({
-    left: Math.max(0, scrollLeft),
-    behavior: 'smooth'
-  });
 }
 
 // Update the tree visualization
@@ -388,16 +265,14 @@ function update(source) {
   const nodes = treeData.descendants(),
         links = treeData.links();
 
-  // Normalize for fixed-depth with increased spacing
-  nodes.forEach(d => {
-    d.y = d.depth * 280; // Increase horizontal spacing between levels even more
-  });
+  // Normalize for fixed-depth
+  nodes.forEach(d => d.y = d.depth * 180);
 
   // ----------------- Nodes section -----------------
-  const node = treeGroup.selectAll("g.node")
+  const node = svg.selectAll("g.node")
     .data(nodes, d => d.id || (d.id = ++i));
 
-  // Enter new nodes at the source's previous positions
+  // Enter new nodes at the source's previous position
   const nodeEnter = node.enter().append("g")
     .attr("class", d => `node node--level-${d.depth}`)
     .attr("transform", _ => `translate(${source.y0},${source.x0})`)
@@ -409,55 +284,19 @@ function update(source) {
     .attr("r", 1e-6)
     .style("fill", d => d._children ? "lightsteelblue" : null);
 
-  // Add plus/minus symbols for nodes with children
+  // Add labels for the nodes
   nodeEnter.append("text")
-    .attr("class", "node-symbol")
     .attr("dy", ".35em")
-    .text(d => d.children || d._children ? (d.children ? "⊖" : "⊕") : "")
+    .attr("x", d => {
+        if (d.depth === 0) return -20;  // Special case for root node
+        return d.children || d._children ? -13 : 13;
+    })
+    .attr("text-anchor", d => {
+        if (d.depth === 0) return "end";  // Special case for root node
+        return d.children || d._children ? "end" : "start";
+    })
+    .text(d => d.data.name)
     .style("fill-opacity", 1e-6);
-
-  // Add text background to prevent overlap
-  nodeEnter.append("rect")
-    .attr("class", "text-background")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", 0)
-    .attr("height", 0)
-    .style("opacity", 1e-6);
-
-  // Add text container for multiline text
-  const textGroups = nodeEnter.append("g")
-    .attr("class", "text-container")
-    .style("fill-opacity", 1e-6);
-
-  // Process text for each node
-  textGroups.each(function(d) {
-    const textGroup = d3.select(this);
-    const isParent = d.children || d._children;
-    const xPos = isParent ? -13 : 15;
-    const textAnchor = isParent ? "end" : "start";
-    
-    // Set text anchor for the group
-    textGroup.attr("text-anchor", textAnchor);
-    
-    // Maximum width for text before wrapping (adjust as needed)
-    const maxWidth = 200;
-    
-    // Wrap text into multiple lines if needed
-    const lines = wrapText(d.data.name, maxWidth);
-    
-    // Create text elements for each line
-    lines.forEach((line, i) => {
-      textGroup.append("text")
-        .attr("class", "node-text-line")
-        .attr("dy", i * 1.2 + "em")
-        .attr("x", xPos)
-        .text(line);
-    });
-    
-    // Store the number of lines for later use
-    d.lineCount = lines.length;
-  });
 
   // UPDATE
   const nodeUpdate = nodeEnter.merge(node);
@@ -474,36 +313,11 @@ function update(source) {
     .attr("r", 6)
     .attr("cursor", "pointer");
 
-  // Update plus/minus symbols
-  nodeUpdate.select(".node-symbol")
-    .transition()
-    .duration(600)
-    .text(d => d.children || d._children ? (d.children ? "⊖" : "⊕") : "")
-    .style("fill-opacity", 1);
-
   // Update text
-  nodeUpdate.select(".text-container")
+  nodeUpdate.select("text")
     .transition()
     .duration(600)
     .style("fill-opacity", 1);
-
-  // Update text background to prevent overlap
-  nodeUpdate.each(function(d) {
-    const textContainer = d3.select(this).select(".text-container").node();
-    if (textContainer) {
-      const bbox = textContainer.getBBox();
-      const padding = 2;
-      
-      d3.select(this).select("rect.text-background")
-        .transition()
-        .duration(600)
-        .attr("x", bbox.x - padding)
-        .attr("y", bbox.y - padding)
-        .attr("width", bbox.width + (padding * 2))
-        .attr("height", bbox.height + (padding * 2))
-        .style("opacity", 0.7);
-    }
-  });
 
   // Remove exiting nodes
   const nodeExit = node.exit().transition()
@@ -514,11 +328,11 @@ function update(source) {
   nodeExit.select("circle")
     .attr("r", 1e-6);
 
-  nodeExit.select(".text-container")
+  nodeExit.select("text")
     .style("fill-opacity", 1e-6);
 
   // ----------------- Links section -----------------
-  const link = treeGroup.selectAll("path.link")
+  const link = svg.selectAll("path.link")
     .data(links, d => d.target.id);
 
   // Enter any new links at the source's previous position
@@ -559,25 +373,11 @@ function update(source) {
              ${(d.source.y + d.target.y) / 2},${d.target.x}
              ${d.target.y},${d.target.x}`;
   }
-
-  // Focus the viewport on the last clicked node after the transition completes
-  setTimeout(() => {
-    if (lastClickedNode) {
-      focusViewportOn(lastClickedNode);
-    }
-  }, 700); // Slightly longer than the transition duration
 }
 
 // -----------------------------------------------------
 // 4) Utility
 // -----------------------------------------------------
-
-// Ensure the SVG resizes when the window resizes
-window.addEventListener('resize', function() {
-  const containerWidth = document.getElementById('tree-container').clientWidth;
-  d3.select("#tree-container svg")
-    .attr("width", Math.max(2000, containerWidth));
-});
 </script>
 
 </body>
