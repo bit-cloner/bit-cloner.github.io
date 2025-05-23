@@ -397,7 +397,7 @@ function update(source) {
   const node = treeGroup.selectAll("g.node")
     .data(nodes, d => d.id || (d.id = ++i));
 
-  // Enter new nodes at the source's previous position
+  // Enter new nodes at the source's previous positions
   const nodeEnter = node.enter().append("g")
     .attr("class", d => `node node--level-${d.depth}`)
     .attr("transform", _ => `translate(${source.y0},${source.x0})`)
